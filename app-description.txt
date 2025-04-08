@@ -1,10 +1,10 @@
 📌 Project Summary — JobRadar
 Developed by: Youssef EL HILALI, ADALLA Ibtihal, Bader ELMOUEDDEN
-Framework: Django (Python)
+Framework: Django (Python) + Oracle MySQL
 
 Overview:
 
-JobRadar is a web application designed to streamline the recruitment process by connecting job seekers with recruiters across different departments and companies. The platform supports three distinct user roles: Job Seekers, Recruiters, and Company Managers (Company Persons), each with dedicated dashboards and features tailored to their responsibilities.
+JobRadar is a web application designed to streamline the recruitment process by connecting job seekers with recruiters across different departments and companies. The platform supports three distinct user roles: Job Seekers, Recruiters, each with dedicated dashboards and features tailored to their responsibilities.
 
 User Roles & Core Functionalities:
 
@@ -22,7 +22,6 @@ Job Seeker:
 
 Recruiter:
 
-	* Login using credentials provided by the Company Manager.
 
 	* Manage their own job offers: create, edit, and update job posts.
 
@@ -36,17 +35,4 @@ Recruiter:
 
 		- Use filters, search, and sorting across job posts and applications.
 
-Company Manager (Company Person):
-
-	 * Register as a company manager and create a company profile.
-
-	 * Access a personalized dashboard with control over:
-
-		- Departments: Create and manage departments.
-
-		- Recruiters: Create recruiters and assign them to departments, manage credentials for recruiter logins.
-
-		- Job Offers: View all job offers across the entire company, specific departments, or individual recruiters.
-
-	* Advanced tools for filtering, sorting, and searching across departments, recruiters, and job offers.
 

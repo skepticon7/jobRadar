@@ -1,19 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# ----------------------------
-# COMPANY MODEL
-# ----------------------------
-class Company(models.Model):
-    name = models.CharField(max_length=75, null=False, blank=False)
-    address = models.CharField(max_length=150, null=False, blank=False)
-    description = models.TextField(null=False, blank=False, max_length=191)
-    industry = models.CharField(max_length=100, null=False, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ('name', 'address')
 
 # ----------------------------
 # BASE USER MODEL
@@ -22,6 +9,8 @@ class BaseUser(AbstractUser):
     username = None  # Remove default username
     name = models.CharField(max_length=75, null=False)
     email = models.EmailField(max_length=191, unique=True, null=False)
+    phone_number = models.CharField(max_length=15, unique=True, null=False)
+    profile_picture = models.ImageField(upload_to='profile_pictures/' , default = 'profile_picture/default.jpg' , null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -39,33 +28,15 @@ class BaseUser(AbstractUser):
 # JOB SEEKER MODEL
 # ----------------------------
 class JobSeeker(BaseUser):
-    phone_number = models.CharField(max_length=15, unique=True, null=False)
-
-# ----------------------------
-# COMPANY USER (For Authentication)
-# ----------------------------
-class CompanyUser(BaseUser):
-    company = models.OneToOneField(Company, on_delete=models.CASCADE, related_name='admin_user', null=False, blank=False)
-    # This is the person who registered the company and manages it
-
-# ----------------------------
-# DEPARTMENT MODEL
-# ----------------------------
-class Department(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='departments')
-    name = models.CharField(max_length=75, null=False, blank=False)
-
-    class Meta:
-        unique_together = ('company', 'name')
+    profession = models.CharField(max_length=100, null=False , blank=False)
 
 # ----------------------------
 # RECRUITER MODEL (Created by Company)
 # ----------------------------
 class Recruiter(BaseUser):
     position_title = models.CharField(max_length=191, null=False)
-    phone_number = models.CharField(max_length=15, unique=True, null=False)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='recruiters', null=False)
-
+    department = models.CharField(max_length=191, null=False)
+    company_name = models.CharField(max_length=191, null=False)
 # ----------------------------
 # JOB POST MODEL
 # ----------------------------
@@ -113,7 +84,9 @@ class Application(models.Model):
     ]
 
     jobPost = models.ForeignKey(JobPost, on_delete=models.CASCADE, related_name='applications')
-    jobSeeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE, related_name='my_applications')
+    jobSeeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE, related_name='applications')
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='applications')
+    motivation_letter = models.TextField(null=False)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, default=PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

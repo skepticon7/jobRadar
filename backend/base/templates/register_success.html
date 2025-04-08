@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Registration Successful{% endblock title %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="card p-5 shadow">
+        <div class="card-body">
+            <h2 class="text-success mb-4">
+                <i class="fas fa-check-circle"></i>
+                Registration Successful!
+            </h2>
+            <p class="lead mb-4">Your account has been created successfully.</p>
+            <a href="{% url 'jobradar:user-signup' %}" class="btn btn-primary">
+                Register More
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
