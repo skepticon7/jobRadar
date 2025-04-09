@@ -48,6 +48,4 @@ class Signup(View):
             except Exception as e:
                 print(f'Error creating user: {str(e)}')
                 form.add_error(None, "error saving user to database")
-
-
         return render(request, self.signup_template, {'form': form})
