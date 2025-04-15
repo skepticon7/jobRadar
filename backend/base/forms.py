@@ -2,8 +2,28 @@ from email.policy import default
 
 from django import forms
 from django.core.exceptions import ValidationError
-
 from . import models
+from django import forms
+
+from django import forms
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Entrez votre email'
+        })
+    )
+    password = forms.CharField(
+        label='Mot de passe',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Entrez votre mot de passe'
+        })
+    )
+
+
 
 class CreateUser(forms.ModelForm):
     USER_TYPES = [

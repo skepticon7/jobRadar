@@ -11,6 +11,7 @@ class BaseUser(AbstractUser):
     email = models.EmailField(max_length=191, unique=True, null=False)
     phone_number = models.CharField(max_length=15, unique=True, null=False)
     profile_picture = models.ImageField(upload_to='profile_pictures/' , default = 'profile_picture/default.jpg' , null=False, blank=False)
+    profession = models.CharField(max_length=100, null=False , blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -28,8 +29,7 @@ class BaseUser(AbstractUser):
 # JOB SEEKER MODEL
 # ----------------------------
 class JobSeeker(BaseUser):
-    profession = models.CharField(max_length=100, null=False , blank=False)
-
+    pass
 # ----------------------------
 # RECRUITER MODEL (Created by Company)
 # ----------------------------

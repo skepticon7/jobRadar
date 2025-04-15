@@ -5,11 +5,77 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password
 import logging
+from django.contrib.auth import login, logout
 
 from .models import Recruiter, JobSeeker
 
 logger = logging.getLogger(__name__)
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from .forms import LoginForm
+from django.views import View
+from django.contrib import messages
 
+from django.views import View
+from django.shortcuts import render, redirect
+from .models import JobSeeker, Recruiter
+from .forms import LoginForm
+from django.contrib import messages
+
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            # Vérifier dans JobSeeker
+            try:
+                user = JobSeeker.objects.get(email=email)
+                if user.check_password(password):
+                    request.session['user_id'] = user.id
+                    request.session['user_type'] = 'jobseeker'
+                    request.session['user_name'] = user.name
+                    messages.success(request, f"Bienvenue {user.name} !")
+                    return redirect('jobradar:home')
+            except JobSeeker.DoesNotExist:
+                pass
+
+            # Vérifier dans Recruiter
+            try:
+                user = Recruiter.objects.get(email=email)
+                if user.check_password(password):
+                    request.session['user_id'] = user.id
+                    request.session['user_type'] = 'recruiter'
+                    request.session['user_name'] = user.name
+                    messages.success(request, f"Bienvenue {user.name} !")
+                    return redirect('jobradar:home')
+            except Recruiter.DoesNotExist:
+                pass
+
+            form.add_error(None, 'Email ou mot de passe invalide.')
+
+        return render(request, 'login.html', {'form': form})
+
+
+class LogoutView(View):
+    def get(self, request):
+        request.session.flush()  # Supprimer toutes les données de session
+        messages.success(request, "Vous êtes déconnecté(e).")
+        return redirect('jobradar:login')
+
+class listjob(View):
+    def get(self, request):
+        job_posts = JobPost.objects.all()
+        return render(request, 'listjob.html', {'job_posts': job_posts})
+
+    
+
+    
 
 # Create your views here.
 class Home(View):
@@ -48,6 +114,4 @@ class Signup(View):
             except Exception as e:
                 print(f'Error creating user: {str(e)}')
                 form.add_error(None, "error saving user to database")
-
-
         return render(request, self.signup_template, {'form': form})
