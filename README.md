@@ -55,10 +55,7 @@ Step 5: Apply database migrations
 python manage.py migrate
 ```
 
-<<<<<<< HEAD
 ### Step 6 : Run Django server
-=======
-
 ```bash
 python manage.py runserver
 ```
