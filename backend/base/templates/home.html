@@ -6,7 +6,7 @@
         <div class="card-body">
           <h2 class="text-success mb-4">
                 <i class="fas fa-check-circle"></i>
-                Welcome, {{ request.user.first_name }} {{ request.user.last_name }}!
+                Welcome, {{ user_fullname }} !
             </h2>
         </div>
         <a href="{% url 'jobradar:logout'%}" class="btn btn-danger">

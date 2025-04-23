@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password
 import logging
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout
 
 from .models import Recruiter, JobSeeker
@@ -40,7 +41,7 @@ class LoginView(View):
                     request.session['user_id'] = user.id
                     request.session['user_type'] = 'jobseeker'
                     request.session['user_name'] = user.name
-                    messages.success(request, f"Bienvenue {user.name} !")
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect('jobradar:home')
             except JobSeeker.DoesNotExist:
                 pass
@@ -52,7 +53,7 @@ class LoginView(View):
                     request.session['user_id'] = user.id
                     request.session['user_type'] = 'recruiter'
                     request.session['user_name'] = user.name
-                    messages.success(request, f"Bienvenue {user.name} !")
+                    print("here before redirecting recruiter")
                     return redirect('jobradar:home')
             except Recruiter.DoesNotExist:
                 pass
@@ -65,22 +66,29 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         request.session.flush()  # Supprimer toutes les données de session
-        messages.success(request, "Vous êtes déconnecté(e).")
         return redirect('jobradar:login')
 
-class listjob(View):
-    def get(self, request):
-        job_posts = JobPost.objects.all()
-        return render(request, 'listjob.html', {'job_posts': job_posts})
+# class listjob(View):
+#     def get(self, request):
+#         job_posts = JobPost.objects.all()
+#         return render(request, 'listjob.html', {'job_posts': job_posts})
 
-    
 
-    
+
+
 
 # Create your views here.
 class Home(View):
     def get(self, request):
-        return render(request, 'hello.html')
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type
+        }
+        return render(request, 'home.html' , context)
 
 class RegisterSuccess(View):
     def get(self , request):
