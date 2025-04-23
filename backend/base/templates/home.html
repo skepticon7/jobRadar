@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Homepage {% endblock title %}
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="card p-5 shadow">
+        <div class="card-body">
+          <h2 class="text-success mb-4">
+                <i class="fas fa-check-circle"></i>
+                Welcome, {{ request.user.first_name }} {{ request.user.last_name }}!
+            </h2>
+        </div>
+        <a href="{% url 'jobradar:logout'%}" class="btn btn-danger">
+            Logout
+        </a>
+    </div>
+</div>
+{% endblock content %}
