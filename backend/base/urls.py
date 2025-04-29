@@ -4,6 +4,7 @@ from .views import LoginView, LogoutView
 app_name = 'jobradar'
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
+    path('/posts' , views.Posts.as_view() , name='posts'),
     path('signup/' , views.Signup.as_view() , name='user-signup'),
       path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),

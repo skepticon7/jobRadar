@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %} Homepage {% endblock title %}
+{% block content %}
+<!-- Include the navbar -->
+{% include 'navbar.html' %}
+<div class="d-flex gap-3 ">
+        <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="{% url 'jobradar:home' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-house"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                       <i class="fa-solid fa-gear"></i> Settings
+                    </a>
+                </li>
+                {% if user_type == 'jobseeker' %}
+                <li>
+                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i>
+                        <p class="m-0">Applications</p>
+                    </a>
+                </li>
+                {% endif %}
+                {% if user_type == 'recruiter' %}
+                <li>
+                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Posts
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="w-100 p-3 bg-dark d-flex justify-content-start align-items-start">
+            <div class="d-flex flex-column">
+                <button class="btn btn-success">Add job post + </button>
+            </div>
+        </div>
+</div>
+<div id="jobPostForm" class="job-post-form">
+    <form>
+        <div class="form-group">
+            <label for="jobTitle">Job Title</label>
+            <input type="text" id="jobTitle" class="form-control" placeholder="Enter job title" required>
+        </div>
+        <div class="form-group">
+            <label for="jobDescription">Job Description</label>
+            <textarea id="jobDescription" class="form-control" placeholder="Enter job description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="jobLocation">Location</label>
+            <input type="text" id="jobLocation" class="form-control" placeholder="Enter location" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" id="closeFormBtn" class="btn btn-secondary">Close</button>
+    </form>
+</div>
+
+<style>
+    .job-post-form {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.job-post-form.active {
+    right: 0;
+}
+
+.job-post-form h3 {
+    margin-bottom: 20px;
+}
+
+.job-post-form .form-group {
+    margin-bottom: 15px;
+}
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addJobPostBtn = document.querySelector('.btn-success');
+        const jobPostForm = document.getElementById('jobPostForm');
+        const closeFormBtn = document.getElementById('closeFormBtn');
+
+        addJobPostBtn.addEventListener('click', function() {
+            jobPostForm.classList.toggle('active');
+        });
+
+        closeFormBtn.addEventListener('click', function() {
+            jobPostForm.classList.remove('active');
+        });
+    });
+</script>
+{% endblock content %}

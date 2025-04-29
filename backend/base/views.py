@@ -55,7 +55,6 @@ class LoginView(View):
                     request.session['user_type'] = 'recruiter'
                     request.session['user_name'] = user.name
                     request.session['profile_picture'] = user.profile_picture.url
-                    print("here before redirecting recruiter")
                     return redirect('jobradar:home')
             except Recruiter.DoesNotExist:
                 pass
@@ -87,7 +86,6 @@ class Home(View):
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
         profilePicture = request.session.get('profile_picture')
-        print(profilePicture)
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
@@ -128,3 +126,17 @@ class Signup(View):
                 print(f'Error creating user: {str(e)}')
                 form.add_error(None, "error saving user to database")
         return render(request, self.signup_template, {'form': form})
+
+class Posts(View):
+    def get(self , request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture
+        }
+        return render(request , 'posts.html' , context)
