@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block title %} Homepage {% endblock title %}
 {% block content %}
+<!-- Include the navbar -->
+{% include 'navbar.html' %}
+{% include 'sidebar.html' %}
+
 <div class="container text-center mt-5">
     <div class="card p-5 shadow">
         <div class="card-body">
@@ -9,7 +13,7 @@
                 Welcome, {{ user_fullname }} !
             </h2>
         </div>
-        <a href="{% url 'jobradar:logout'%}" class="btn btn-danger">
+        <a href="{% url 'jobradar:logout' %}" class="btn btn-danger">
             Logout
         </a>
     </div>

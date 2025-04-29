@@ -41,6 +41,7 @@ class LoginView(View):
                     request.session['user_id'] = user.id
                     request.session['user_type'] = 'jobseeker'
                     request.session['user_name'] = user.name
+                    request.session['profile_picture'] = user.profile_picture.url
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect('jobradar:home')
             except JobSeeker.DoesNotExist:
@@ -53,6 +54,7 @@ class LoginView(View):
                     request.session['user_id'] = user.id
                     request.session['user_type'] = 'recruiter'
                     request.session['user_name'] = user.name
+                    request.session['profile_picture'] = user.profile_picture.url
                     print("here before redirecting recruiter")
                     return redirect('jobradar:home')
             except Recruiter.DoesNotExist:
@@ -84,9 +86,12 @@ class Home(View):
             return redirect('jobradar:login')
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        print(profilePicture)
         context = {
             'user_fullname': user_fullname,
-            'user_type': user_type
+            'user_type': user_type,
+            'profile_picture':profilePicture
         }
         return render(request, 'home.html' , context)
 

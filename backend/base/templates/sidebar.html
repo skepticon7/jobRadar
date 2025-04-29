@@ -1,0 +1,29 @@
+<div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+               <i class="fa-solid fa-gear"></i> Settings
+            </a>
+        </li>
+        {% if user_type == 'jobseeker' %}
+        <li>
+            <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                <i class="fa-solid fa-envelope"></i>
+                <p class="m-0">Applications</p>
+            </a>
+        </li>
+        {% endif %}
+        {% if user_type == 'recruiter' %}
+        <li>
+            <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                <i class="fa-solid fa-briefcase"></i> Posts
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
