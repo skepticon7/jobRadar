@@ -16,7 +16,7 @@
                        <i class="fa-solid fa-gear"></i> Settings
                     </a>
                 </li>
-                {% if user_type == 'jobseeker' %}
+                {% if context.user_type == 'jobseeker' %}
                 <li>
                     <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                         <i class="fa-solid fa-envelope"></i>
@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 {% endif %}
-                {% if user_type == 'recruiter' %}
+                {% if context.user_type == 'recruiter' %}
                 <li>
                     <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                         <i class="fa-solid fa-briefcase"></i> Posts
@@ -38,7 +38,7 @@
                 <div class="card-body">
                   <h2 class="text-success mb-4">
                         <i class="fas fa-check-circle"></i>
-                        Welcome, {{ user_fullname }} !
+                        Welcome, {{ context.user_fullname }} !
                   </h2>
                 </div>
             </div>

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load custom_tag %}
 {% block title %} Homepage {% endblock title %}
 {% block content %}
-<!-- Include the navbar -->
+
+
+
 {% include 'navbar.html' %}
 <div class="d-flex gap-3 ">
         <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
@@ -16,44 +19,113 @@
                        <i class="fa-solid fa-gear"></i> Settings
                     </a>
                 </li>
-                {% if user_type == 'jobseeker' %}
-                <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-envelope"></i>
-                        <p class="m-0">Applications</p>
-                    </a>
-                </li>
-                {% endif %}
-                {% if user_type == 'recruiter' %}
                 <li>
                     <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                         <i class="fa-solid fa-briefcase"></i> Posts
                     </a>
                 </li>
-                {% endif %}
             </ul>
         </div>
-        <div class="w-100 p-3 bg-dark d-flex justify-content-start align-items-start">
+        <div class="w-100 p-3 d-flex flex-column justify-content-start align-items-start">
             <div class="d-flex flex-column">
-                <button class="btn btn-success">Add job post + </button>
+                <button id="addJobPost" class="btn btn-success">Add job post + </button>
             </div>
+            <hr>
+            {% if messages %}
+            <div>
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+            {% if posts %}
+            <div class="w-100">
+                <table class="w-100 table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <th>Title</th>
+                        <th>Applicants</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {%for post in posts%}
+                            <tr>
+                                <td>{{post.title}}</td>
+                                <td>{{post.total_posts}}</td>
+                                <td class="{% if post.status == 'ongoing' %} text-success {% elif post.status == 'terminated'%} text-danger {% endif%} fw-bold">{{post.status}}</td>
+                                <td>
+                                    <a href="#"
+                                       class="updateJobPost btn btn-warning btn-sm"
+                                       data-id="{{post.id}}"
+                                       data-title = "{{post.title}}"
+                                       data-location = "{{post.location}}"
+                                       data-status = "{{post.status}}"
+                                       data-education = "{{post.min_education}}"
+                                       data-experience = "{{post.experience_level}}"
+                                       data-salary-min = "{{post.salary_min}}"
+                                       data-salary-max = "{{post.salary_max}}"
+                                       data-show-salary = "{{post.show_salary}}"
+                                    ><i class="fa-solid fa-pen"></i></a>
+                                    <a href="{% url 'jobradar:delete-jobpost' post.id %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="bg-light">
+                <p>You have no job posts</p>
+            </div>
+            {% endif %}
         </div>
 </div>
 <div id="jobPostForm" class="job-post-form">
-    <form>
-        <div class="form-group">
-            <label for="jobTitle">Job Title</label>
-            <input type="text" id="jobTitle" class="form-control" placeholder="Enter job title" required>
+    <form method="POST" action="{% url 'jobradar:posts' %}">
+        {% csrf_token %}
+        <div class="form-group d-flex flex-column gap-2">
+            <label class="form-label">Job Title</label>
+            {{ form.title | addclass:"form-control" }}
         </div>
-        <div class="form-group">
-            <label for="jobDescription">Job Description</label>
-            <textarea id="jobDescription" class="form-control" placeholder="Enter job description" required></textarea>
+
+        <div class="form-group d-flex flex-column gap-2">
+            <label class="form-label">Location</label>
+            {{form.location | addclass:"form-control" }}
         </div>
-        <div class="form-group">
-            <label for="jobLocation">Location</label>
-            <input type="text" id="jobLocation" class="form-control" placeholder="Enter location" required>
+
+        <div id="statusField" class="form-group d-flex flex-column gap-2 d-none">
+            <label class="form-label">Status</label>
+            {{form.status | addclass:"form-control" }}
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <div id="educationField" class="form-group d-flex flex-column gap-2 ">
+            <label class="form-label">Education level</label>
+            {{form.min_education | addclass:"form-control" }}
+        </div>
+
+        <div id="experienceField" class="form-group d-flex flex-column gap-2 ">
+            <label class="form-label">Experience level</label>
+            {{form.experience_level | addclass:"form-control" }}
+        </div>
+
+        <div id="salaryMin" class="form-group d-flex flex-column gap-2 ">
+            <label class="form-label">Min Salary</label>
+            {{form.salary_min | addclass:"form-control" }}
+        </div>
+
+        <div id="salaryMax" class="form-group d-flex flex-column gap-2 ">
+            <label class="form-label">Max Salary</label>
+            {{form.salary_max | addclass:"form-control" }}
+        </div>
+
+        <div id="salaryStatus" class="form-group d-flex flex-column gap-2 ">
+                <label class="form-label">Show salary</label>
+            {{form.show_salary | addclass:"form-control" }}
+        </div>
+
+        <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
         <button type="button" id="closeFormBtn" class="btn btn-secondary">Close</button>
     </form>
 </div>
@@ -86,16 +158,75 @@
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const addJobPostBtn = document.querySelector('.btn-success');
+
+        const addJobPostBtn = document.getElementById('addJobPost');
+        const updateJobPosts = document.querySelectorAll('.updateJobPost');
         const jobPostForm = document.getElementById('jobPostForm');
         const closeFormBtn = document.getElementById('closeFormBtn');
+        const titleField = document.querySelector('[name="title"]');
+        const locationField = document.querySelector('[name="location"]');
+        const submitButton = document.getElementById("submitButton");
+        const educationField = document.getElementById("educationField")
+        const experienceField = document.getElementById("experienceField")
+        const minSalaryField = document.getElementById("salaryMin")
+        const maxSalaryField = document.getElementById("salaryMax")
+        const salaryStatusField = document.getElementById("salaryStatus")
+        const statusField = document.getElementById("statusField")
+        const form = jobPostForm.querySelector('form');
+
+        function resetForm() {
+            titleField.value = '';
+            locationField.value = '';
+            educationField.querySelector('select').value = '';
+            experienceField.querySelector('select').value = '';
+            minSalaryField.querySelector('input').value = '';
+            maxSalaryField.querySelector('input').value = '';
+            salaryStatusField.querySelector('select').value = '';
+            submitButton.innerHTML = "Submit";
+            statusField.classList.add('d-none');
+        }
 
         addJobPostBtn.addEventListener('click', function() {
             jobPostForm.classList.toggle('active');
+            resetForm();
+            form.setAttribute("action" , `{% url 'jobradar:posts' %}`)
         });
+
+        updateJobPosts.forEach(updateJobPost => {
+            updateJobPost.addEventListener('click', function(event) {
+                console.log("here");
+                event.preventDefault();
+                statusField.classList.remove('d-none');
+                let title = this.getAttribute('data-title');
+                let id = this.getAttribute('data-id');
+                let location = this.getAttribute('data-location');
+                let status = this.getAttribute('data-status');
+                let education = this.getAttribute('data-education');
+                let experience = this.getAttribute('data-experience');
+                let minSalary = this.getAttribute('data-salary-min');
+                let maxSalary = this.getAttribute('data-salary-max');
+                let showSalary = this.getAttribute('data-show-salary');
+
+                form.setAttribute("action" , `{% url 'jobradar:update-jobpost' 0 %}`.replace('0' , id))
+
+                titleField.value = title;
+                locationField.value = location;
+                educationField.querySelector('select').value = education;
+                experienceField.querySelector('select').value = experience;
+                minSalaryField.querySelector('input').value = minSalary;
+                maxSalaryField.querySelector('input').value = maxSalary;
+                salaryStatusField.querySelector('select').value = showSalary;
+                statusField.querySelector('select').value = status;
+                submitButton.innerHTML = "update"
+
+                jobPostForm.classList.add('active');
+
+            });
+        })
 
         closeFormBtn.addEventListener('click', function() {
             jobPostForm.classList.remove('active');
+            resetForm();
         });
     });
 </script>

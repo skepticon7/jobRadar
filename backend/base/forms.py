@@ -112,3 +112,22 @@ class CreateUser(forms.ModelForm):
                 raise ValidationError("Passwords do not match")
 
         return cleaned_data
+
+class CreateJobPost(forms.ModelForm):
+    class Meta:
+        model = models.JobPost
+        fields = ['title' , 'location' , 'status' , 'show_salary' , 'min_education' , 'experience_level' , 'salary_min' , 'salary_max']
+
+
+# class CreateUserSettings(forms.ModelForm):
+#     class Meta:
+#         model = models.JobSeeker
+#         fields = '__all__'
+
+class CreateRecruiterSettings(forms.ModelForm):
+    class Meta:
+        model = models.Recruiter
+        fields = ['name' , 'email' , 'phone_number' , 'profession' , 'position_title' , 'department' , 'company_name' , 'profile_picture' ]
+
+
+

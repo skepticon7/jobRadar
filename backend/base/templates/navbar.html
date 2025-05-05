@@ -9,8 +9,8 @@
         <!-- Right-side items -->
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ profile_picture }}" alt="Profile Picture" class="rounded-circle me-2" style="width: 30px; height: 30px;">
-                <strong>{{ user_fullname }}</strong>
+                <img src="{{ context.profile_picture }}" alt="Profile Picture" class="rounded-circle me-2" style="width: 30px; height: 30px;">
+                <strong>{{ context.user_fullname }}</strong>
             </a>
             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
                 <li><a class="dropdown-item" href="{% url 'jobradar:logout' %}">

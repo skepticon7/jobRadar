@@ -49,11 +49,63 @@ class JobPost(models.Model):
         (TERMINATED, 'Terminated')
     ]
 
+    EDUCATION_CHOICES = [
+        ('high_school', 'High School'),
+        ('diploma', 'Diploma'),
+        ('bachelor', "Bachelor's Degree"),
+        ('master', "Master's Degree"),
+        ('phd', 'PhD'),
+    ]
+
+    EXPERIENCE_CHOICES = [
+        ('entry', 'Entry Level (0-2 years)'),
+        ('mid', 'Mid Level (2-5 years)'),
+        ('senior', 'Senior Level (5+ years)'),
+        ('executive', 'Executive Level'),
+    ]
+
+    SALARY_STATUS_CHOICE = [
+        ('SHOW' , 'Show salary'),
+        ('HIDE' , 'Hide salary')
+    ]
+
     title = models.CharField(max_length=75, null=False)
-    description = models.TextField(max_length=191, null=False)
     location = models.CharField(max_length=75, null=False)
     recruiter = models.ForeignKey(Recruiter, on_delete=models.CASCADE, related_name='job_posts')
     status = models.CharField(default=ONGOING, max_length=20, choices=STATUS_CHOICES)
+
+    min_education = models.CharField(
+        max_length=20,
+        choices=EDUCATION_CHOICES,
+        default='bachelor',
+        verbose_name="Minimum Education Required"
+    )
+    experience_level = models.CharField(
+        max_length=20,
+        choices=EXPERIENCE_CHOICES,
+        default='mid',
+        verbose_name="Experience Level Required"
+    )
+
+    # Salary Information
+    salary_min = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Minimum Salary"
+    )
+    salary_max = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Maximum Salary"
+    )
+
+    show_salary = models.CharField(max_length=20, choices=SALARY_STATUS_CHOICE)
+
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

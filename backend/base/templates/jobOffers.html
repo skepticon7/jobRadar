@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %} Job Posts {% endblock title %}
+{% block content %}
+<!-- Include the navbar -->
+{% include 'navbar.html' %}
+<div class="d-flex gap-3">
+    <!-- Sidebar -->
+    <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                   <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p class="m-0">Applications</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-100 p-3">
+        {% if job_posts %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for job in job_posts %}
+            {% if job.status != 'terminated' %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0">
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="{{ job.recruiter.profile_picture.url }}"
+                                 class="rounded-circle"
+                                 width="40"
+                                 height="40"
+                                 alt="{{ job.recruiter.name }}">
+                            <div>
+                                <h6 class="mb-0">{{ job.recruiter.name }}</h6>
+                                <small class="text-muted">{{ job.recruiter.position_title }} at {{ job.recruiter.company_name }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <p class="card-text text-muted">{{ job.location }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">{{ job.status|title }}</span>
+                            <small class="text-muted">{{ job.created_at|date:"M d, Y" }}</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 d-flex justify-content-end">
+                        <a href="{% url 'jobradar:jobPost' job.id %}" class="btn btn-outline-primary btn-sm">
+                            Show More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <p>No job posts available at this time</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .rounded-circle {
+        object-fit: cover;
+    }
+    .card-header {
+        padding-bottom: 0;
+    }
+    .card-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    .badge {
+        font-size: 0.75rem;
+    }
+</style>
+{% endblock content %}

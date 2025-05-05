@@ -1,20 +1,20 @@
+from django.db.utils import IntegrityError  # Import the correct IntegrityError
+
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import CreateUser
+from .forms import CreateUser , CreateJobPost
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password
 import logging
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login, logout
 
-from .models import Recruiter, JobSeeker
+
+from .models import Recruiter, JobSeeker, JobPost
 
 logger = logging.getLogger(__name__)
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
-from .forms import LoginForm
-from django.views import View
+from django.contrib.auth import login
+
 from django.contrib import messages
 
 from django.views import View
@@ -43,7 +43,7 @@ class LoginView(View):
                     request.session['user_name'] = user.name
                     request.session['profile_picture'] = user.profile_picture.url
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                    return redirect('jobradar:home')
+                    return redirect('jobradar:jobPosts')
             except JobSeeker.DoesNotExist:
                 pass
 
@@ -78,11 +78,11 @@ class LogoutView(View):
 
 
 
-# Create your views here.
 class Home(View):
     def get(self, request):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
+        print("here in home")
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
         profilePicture = request.session.get('profile_picture')
@@ -91,7 +91,24 @@ class Home(View):
             'user_type': user_type,
             'profile_picture':profilePicture
         }
-        return render(request, 'home.html' , context)
+        return render(request, 'home.html' , {'context' : context})
+
+
+class JobPosts(View):
+    def get(self , request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        print("here in jobposts")
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture
+        }
+        job_posts = JobPost.objects.all().select_related('recruiter')
+        return render(request , 'jobOffers.html' , {'job_posts' : job_posts , 'context' : context})
 
 class RegisterSuccess(View):
     def get(self , request):
@@ -127,8 +144,9 @@ class Signup(View):
                 form.add_error(None, "error saving user to database")
         return render(request, self.signup_template, {'form': form})
 
-class Posts(View):
-    def get(self , request):
+
+class JobPostDetail(View):
+    def get(self , request , id):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
         user_fullname = request.session.get('user_name')
@@ -139,4 +157,85 @@ class Posts(View):
             'user_type': user_type,
             'profile_picture': profilePicture
         }
-        return render(request , 'posts.html' , context)
+        jobPost = JobPost.objects.get(id = id)
+        return render(request , 'job_detail.html' , {'job' : jobPost , 'context' : context})
+
+class Posts(View):
+    def get(self , request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        user_id = request.session.get('user_id')
+        posts = JobPost.objects.filter(recruiter_id = user_id).annotate(total_posts=Count('applications'))
+        form = CreateJobPost()
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture,
+            'user_id':user_id
+        }
+        return render(request , 'posts.html' , {'posts' : posts , 'context' : context , 'form' : form})
+
+    def post(self, request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        form = CreateJobPost(request.POST)
+        print("here in post before")
+        print(form.is_valid())
+        if form.is_valid():
+            print("here in post")
+            try:
+                jobPostData = form.cleaned_data
+                jobPostData['recruiter_id'] = request.session.get('user_id')
+                jobPost = JobPost.objects.create(**jobPostData)
+                jobPost.save()
+                return redirect('jobradar:posts')
+            except IntegrityError as e:
+                print(f"error saving new job : {str(e)}")
+                messages.error(request, "A job with the same title already exists. Please choose a different title.")
+                return redirect('jobradar:posts')
+        else:
+            form.add_error(None, 'Invalid form submission. Please check your inputs.')
+            return render(request, 'posts.html', {'form': form})
+
+class JobPostDelete(View):
+    def get(self , request , id):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        jobPost = JobPost.objects.get(id = id)
+        jobPost.delete()
+        return redirect('jobradar:posts')
+
+class JobPostUpdate(View):
+    def post(self , request , id):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        jobPost = JobPost.objects.get(id = id)
+        form = CreateJobPost(request.POST , instance=jobPost)
+        if form.is_valid():
+            form.save()
+            return redirect('jobradar:posts')
+        form.add_error(None, 'Invalid form submission.')
+        return render(request, 'posts.html', {'form': form})
+
+class Settings(View):
+    def get(self , request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        user_id = request.session.get('user_id')
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture,
+            'user_id': user_id
+        }
+        if user_type == 'jobseeker':
+            user = JobSeeker.objects.get(id=user_id)
+
+        else:
+            user = Recruiter.objects.get(id=user_id)
