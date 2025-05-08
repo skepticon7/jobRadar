@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon E-Commerce{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                <i class="fas fa-store me-2"></i>MonShop
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'products' %}">Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Catégories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex">
+                    <div class="dropdown me-3">
+                        <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> Mon Compte
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Connexion</a></li>
+                            <li><a class="dropdown-item" href="#">Inscription</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Administration</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="btn btn-warning position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages d'alertes -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Contenu principal -->
+    <main class="flex-grow-1 my-4">
+        <div class="container">
+            {% block content %}
+            <!-- Le contenu spécifique à chaque page viendra ici -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>MonShop</h5>
+                    <p class="text-muted">Votre boutique en ligne préférée pour des produits de qualité.</p>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <h5>Liens</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-muted">Accueil</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Produits</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Paris, France</li>
+                        <li><i class="fas fa-phone me-2"></i> +33 1 23 45 67 89</li>
+                        <li><i class="fas fa-envelope me-2"></i> contact@monshop.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5>Réseaux sociaux</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-decoration-none text-muted me-2"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none text-muted me-2"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none text-muted me-2"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-decoration-none text-muted"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center text-muted">
+                <small>&copy; 2024 MonShop - Tous droits réservés</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

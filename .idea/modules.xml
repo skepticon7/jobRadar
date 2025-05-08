@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/JobRadar.iml" filepath="$PROJECT_DIR$/.idea/JobRadar.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/pythonProject21.iml" filepath="$PROJECT_DIR$/.idea/pythonProject21.iml" />
+>>>>>>> 06345655b988f952b6ec7f052ce3bb1d3c7e15aa
     </modules>
   </component>
 </project>
