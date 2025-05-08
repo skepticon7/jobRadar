@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load custom_tag %}
+{% block title %} Homepage {% endblock title %}
+{% block content %}
+
+
+
+{% include 'navbar.html' %}
+<div class="d-flex gap-3 ">
+        <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2 ">
+                        <i class="fa-solid fa-house"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                       <i class="fa-solid fa-gear"></i> Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Applications
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="w-100 p-3 d-flex flex-column justify-content-start align-items-start">
+            {% if messages %}
+            <div>
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+            {% if applications %}
+            <div class="w-100">
+                <table class="w-100 table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {%for application in applications%}
+                            <tr>
+                                <td> <a class="text-black" href="{% url 'jobradar:jobPost' application.jobPost.id %}">{{application.jobPost.title}}</a> </td>
+                                <td class="{% if application.status == 'accepted' %} text-success {% elif application.status == 'rejected' %} text-danger {% elif application.status == 'pending' %} text-warning {% endif %} fw-bold">
+                                    {{ application.status }}
+                                </td>
+                                <td class="text-center">
+                                    <a href="{% url 'jobradar:delete-application' application.id %}"
+                                       class="updateJobPost btn btn-warning btn-sm"
+                                       data-id="{{post.id}}"
+                                    ><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info mt-3">No job applications yet.</div>
+            {% endif %}
+        </div>
+</div>
+
+{% endblock content %}

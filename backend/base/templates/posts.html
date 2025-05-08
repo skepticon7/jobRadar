@@ -10,7 +10,7 @@
         <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="{% url 'jobradar:home' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <a href="{% url 'jobradar:home' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2 ">
                         <i class="fa-solid fa-house"></i> Home
                     </a>
                 </li>
@@ -34,7 +34,7 @@
             {% if messages %}
             <div>
             {% for message in messages %}
-                <div class="alert alert-danger">
+                <div class="alert {{ message.tags }}">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -55,7 +55,7 @@
                                 <td>{{post.title}}</td>
                                 <td>{{post.total_posts}}</td>
                                 <td class="{% if post.status == 'ongoing' %} text-success {% elif post.status == 'terminated'%} text-danger {% endif%} fw-bold">{{post.status}}</td>
-                                <td>
+                                <td class="text-center">
                                     <a href="#"
                                        class="updateJobPost btn btn-warning btn-sm"
                                        data-id="{{post.id}}"

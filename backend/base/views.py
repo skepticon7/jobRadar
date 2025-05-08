@@ -7,7 +7,8 @@ logger = logging.getLogger(__name__)
 from django.contrib.auth import login
 from .models import JobSeeker, Recruiter
 from .forms import LoginForm
-
+from .forms import ResumeForm
+from .models import Resume
 from django.views import View
 
 from django.contrib.auth.models import User
@@ -98,38 +99,40 @@ class UpdateApplicationStatus(View):
         # Redirection vers la page des candidatures
         return redirect('jobradar:view-applications', post_id=job_post.id)
 
-@csrf_exempt
-def apply_job(request, id):
-    if request.method == 'POST':
-        if not request.session.get('user_id'):
-            return redirect('jobradar:login')
 
-        user_id = request.session.get('user_id')
-        resume_id = request.POST.get('resume_id')
-        motivation_letter = request.POST.get('motivation')
 
-        try:
-            job = get_object_or_404(JobPost, id=id)
-            job_seeker = get_object_or_404(JobSeeker, id=user_id)
-            resume = get_object_or_404(Resume, id=resume_id, jobSeeker=job_seeker)
-
-            existing_application = Application.objects.filter(jobPost=job, jobSeeker=job_seeker).first()
-            if existing_application:
-                return redirect(f'/jobPost/{id}?success=already')
-
-            Application.objects.create(
-                jobPost=job,
-                jobSeeker=job_seeker,
-                resume=resume,
-                motivation_letter=motivation_letter
-            )
-            return redirect(f'/jobPost/{id}?success=1')
-
-        except Exception as e:
-            print("Erreur :", e)
-            return redirect(f'/jobPost/{id}?success=0')
-
-    return redirect(f'/jobPost/{id}')
+# @csrf_exempt
+# def apply_job(request, id):
+#     if request.method == 'POST':
+#         if not request.session.get('user_id'):
+#             return redirect('jobradar:login')
+#
+#         user_id = request.session.get('user_id')
+#         resume_id = request.POST.get('resume_id')
+#         motivation_letter = request.POST.get('motivation')
+#
+#         try:
+#             job = get_object_or_404(JobPost, id=id)
+#             job_seeker = get_object_or_404(JobSeeker, id=user_id)
+#             resume = get_object_or_404(Resume, id=resume_id, jobSeeker=job_seeker)
+#
+#             existing_application = Application.objects.filter(jobPost=job, jobSeeker=job_seeker).first()
+#             if existing_application:
+#                 return redirect(f'/jobPost/{id}?success=already')
+#
+#             Application.objects.create(
+#                 jobPost=job,
+#                 jobSeeker=job_seeker,
+#                 resume=resume,
+#                 motivation_letter=motivation_letter
+#             )
+#             return redirect(f'/jobPost/{id}?success=1')
+#
+#         except Exception as e:
+#             print("Erreur :", e)
+#             return redirect(f'/jobPost/{id}?success=0')
+#
+#     return redirect(f'/jobPost/{id}')
 
 
 class LoginView(View):
@@ -271,6 +274,7 @@ class JobPostDetail(View):
         jobPost = get_object_or_404(JobPost, id=id)
 
         resumes = []
+        hasApplied = True if Application.objects.filter(jobSeeker_id = user_id , jobPost_id = id).exists() else False
         if user_type == 'jobseeker':
             try:
                 jobseeker = JobSeeker.objects.get(id=user_id)
@@ -285,7 +289,33 @@ class JobPostDetail(View):
             'resumes': resumes
         }
 
-        return render(request, 'job_detail.html', {'job': jobPost, 'context': context})
+        return render(request, 'job_detail.html', {'job': jobPost, 'context': context , 'hasApplied': hasApplied})
+
+    def post(self , request , id):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        user_id = request.session.get('user_id')
+        jobPost = get_object_or_404(JobPost, id=id)
+        resume_id = request.POST.get('resume_id')
+        motivation_letter = request.POST.get('motivation')
+
+        if resume_id:
+            try:
+                resume = Resume.objects.get(id=resume_id, jobSeeker_id=user_id)
+                Application.objects.create(
+                    jobPost=jobPost,
+                    jobSeeker_id=user_id,
+                    resume=resume,
+                    motivation_letter=motivation_letter
+                )
+                messages.success(request, "Application submitted successfully.")
+            except Resume.DoesNotExist:
+                messages.error(request, "CV Doesnt exist")
+        else:
+            messages.error(request, "You have to select a CV")
+
+        return redirect(f"/jobPost/{id}")
+
 
 class Posts(View):
     def get(self , request):
@@ -347,8 +377,37 @@ class JobPostUpdate(View):
         form.add_error(None, 'Invalid form submission.')
         return render(request, 'posts.html', {'form': form})
 
-from .forms import ResumeForm
-from .models import Resume
+
+class Applications(View):
+    def get(self , request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        user_id = request.session.get('user_id')
+
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture,
+            'user_id': user_id
+        }
+
+        applications = Application.objects.filter(jobSeeker_id=user_id)
+
+        return render(request, 'applications.html', {'context': context , 'applications':applications})
+
+
+class deleteApplication(View):
+    def get(self , request , id):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+        application = Application.objects.get(id = id)
+        application.delete()
+        return redirect('jobradar:applications')
+
+
 
 class Settings(View):
     def get(self, request):

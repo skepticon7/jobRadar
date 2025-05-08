@@ -51,9 +51,31 @@
                         <td>
                             <a href="{{ app.resume.filePath.url }}" target="_blank" class="btn btn-outline-primary btn-sm">View CV</a>
                         </td>
-                        <td class="text-start">{{ app.motivation_letter }}</td>
+                        <td class="text-start">
+                                {{ app.motivation_letter|slice:":30" }}...
+                                <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#motivationModal{{ app.id }}">
+                                    Show More
+                                </button>
+
+                                <div class="modal fade" id="motivationModal{{ app.id }}" tabindex="-1" aria-labelledby="motivationModalLabel{{ app.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="motivationModalLabel{{ app.id }}">Motivation Letter</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{ app.motivation_letter }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </td>
                         <td class="fw-bold {% if app.status == 'accepted' %}text-success{% elif app.status == 'rejected' %}text-danger{% else %}text-warning{% endif %}">
-                            {{ app.status|capfirst }}
+                            {{ app.status }}
                         </td>
                         <td>
                             <form method="post" action="{% url 'jobradar:update-application-status' app.id %}">
