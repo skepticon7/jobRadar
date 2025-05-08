@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Paramètres{% endblock title %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="d-flex gap-3">
+    <!-- Sidebar -->
+    <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2 active">
+                   <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p class="m-0">Applications</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-100 p-4">
+        <h2 class="mb-4">Paramètres</h2>
+
+        <div class="card mb-4">
+            <div class="card-body d-flex align-items-center gap-4">
+                <img src="{{ context.profile_picture }}" alt="Profile Picture" class="rounded-circle" width="100" height="100">
+                <div>
+                    <h4>{{ context.user_fullname }}</h4>
+                    <p class="text-muted">Type d'utilisateur : {{ context.user_type }}</p>
+                </div>
+            </div>
+        </div>
+
+        {% if context.user_type == 'jobseeker' %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Ajouter un CV</h5>
+                     <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ context.resume_form.as_p }}
+    <button type="submit" class="btn btn-primary">Ajouter un CV</button>
+  </form>
+                </div>
+            </div>
+
+            {% if context.resumes %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Vos CV</h5>
+                        <ul class="list-group">
+                            {% for resume in context.resumes %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="{{ resume.filePath.url }}" target="_blank">{{ resume.filePath.name }}</a>
+                                    <span class="badge bg-secondary">{{ resume.created_at|date:"d M Y" }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .rounded-circle {
+        object-fit: cover;
+    }
+</style>
+{% endblock content %}
+

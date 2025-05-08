@@ -6,6 +6,13 @@ from . import models
 from django import forms
 
 from django import forms
+from django import forms
+from .models import Resume
+
+class ResumeForm(forms.ModelForm):
+    class Meta:
+        model = Resume
+        fields = ['filePath']
 
 class LoginForm(forms.Form):
     email = forms.EmailField(

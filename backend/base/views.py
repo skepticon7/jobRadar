@@ -1,27 +1,136 @@
-from django.db.utils import IntegrityError  # Import the correct IntegrityError
-
+from django.db.utils import IntegrityError
 from django.db.models import Count
-from django.shortcuts import render, redirect
-from django.views import View
 from .forms import CreateUser , CreateJobPost
-from django.contrib import messages
-from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password
 import logging
-
-
-from .models import Recruiter, JobSeeker, JobPost
-
 logger = logging.getLogger(__name__)
 from django.contrib.auth import login
-
-from django.contrib import messages
-
-from django.views import View
-from django.shortcuts import render, redirect
 from .models import JobSeeker, Recruiter
 from .forms import LoginForm
+
+from django.views import View
+
+from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import JobPost, JobSeeker, Resume, Application
+from django.views.decorators.csrf import csrf_exempt
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import JobPost, JobSeeker, Resume, Application
+from django.views.decorators.csrf import csrf_exempt
+# views.py
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import JobPost, Application
+from django.contrib.auth.decorators import login_required
+
+
+from django.views import View
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseForbidden
+from .models import JobPost, Application
+
+class ViewApplications(View):
+    def get(self, request, post_id):
+        # Vérifie si l'utilisateur est connecté
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+
+        # Données de session
+        user_id = request.session.get('user_id')
+        user_type = request.session.get('user_type')
+        user_fullname = request.session.get('user_name')
+        profile_picture = request.session.get('profile_picture')
+
+        # Vérifie que l'utilisateur est un recruteur
+        if user_type != 'recruiter':
+            return HttpResponseForbidden("Vous n'avez pas la permission d'accéder à cette page.")
+
+        # Récupère le poste du recruteur
+        job_post = get_object_or_404(JobPost, id=post_id, recruiter_id=user_id)
+
+        # Récupère toutes les candidatures liées à ce poste
+        applications = job_post.applications.select_related('jobSeeker', 'resume')
+
+        # Contexte transmis au template
+        context = {
+            'job_post': job_post,
+            'applications': applications,
+            'context': {
+                'user_fullname': user_fullname,
+                'user_type': user_type,
+                'profile_picture': profile_picture,
+                'user_id': user_id,
+            }
+        }
+
+        return render(request, 'view_applications.html', context)
+
+
+
+class UpdateApplicationStatus(View):
+    def post(self, request, app_id):
+        # Vérification de session : utilisateur connecté ?
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+
+        user_id = request.session.get('user_id')
+        user_type = request.session.get('user_type')
+
+        # Autorisation : uniquement les recruteurs
+        if user_type != 'recruiter':
+            return HttpResponseForbidden("Vous n'avez pas la permission de modifier cette candidature.")
+
+        # Récupération de la candidature et de l'offre associée
+        application = get_object_or_404(Application, id=app_id)
+        job_post = application.jobPost
+
+        # Vérification que le recruteur est le propriétaire de l'offre
+        if job_post.recruiter.id != user_id:
+            return HttpResponseForbidden("Vous n'êtes pas autorisé à modifier cette candidature.")
+
+        # Mise à jour du statut de la candidature
+        new_status = request.POST.get('status')
+        if new_status in dict(Application.STATUS_CHOICES):
+            application.status = new_status
+            application.save()
+
+        # Redirection vers la page des candidatures
+        return redirect('jobradar:view-applications', post_id=job_post.id)
+
+@csrf_exempt
+def apply_job(request, id):
+    if request.method == 'POST':
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+
+        user_id = request.session.get('user_id')
+        resume_id = request.POST.get('resume_id')
+        motivation_letter = request.POST.get('motivation')
+
+        try:
+            job = get_object_or_404(JobPost, id=id)
+            job_seeker = get_object_or_404(JobSeeker, id=user_id)
+            resume = get_object_or_404(Resume, id=resume_id, jobSeeker=job_seeker)
+
+            existing_application = Application.objects.filter(jobPost=job, jobSeeker=job_seeker).first()
+            if existing_application:
+                return redirect(f'/jobPost/{id}?success=already')
+
+            Application.objects.create(
+                jobPost=job,
+                jobSeeker=job_seeker,
+                resume=resume,
+                motivation_letter=motivation_letter
+            )
+            return redirect(f'/jobPost/{id}?success=1')
+
+        except Exception as e:
+            print("Erreur :", e)
+            return redirect(f'/jobPost/{id}?success=0')
+
+    return redirect(f'/jobPost/{id}')
+
 
 class LoginView(View):
     def get(self, request):
@@ -145,20 +254,38 @@ class Signup(View):
         return render(request, self.signup_template, {'form': form})
 
 
+from django.views import View
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import JobPost, Resume, JobSeeker
+
 class JobPostDetail(View):
-    def get(self , request , id):
+    def get(self, request, id):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
+
+        user_id = request.session.get('user_id')
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
         profilePicture = request.session.get('profile_picture')
+
+        jobPost = get_object_or_404(JobPost, id=id)
+
+        resumes = []
+        if user_type == 'jobseeker':
+            try:
+                jobseeker = JobSeeker.objects.get(id=user_id)
+                resumes = Resume.objects.filter(jobSeeker=jobseeker)
+            except JobSeeker.DoesNotExist:
+                resumes = []
+
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
-            'profile_picture': profilePicture
+            'profile_picture': profilePicture,
+            'resumes': resumes
         }
-        jobPost = JobPost.objects.get(id = id)
-        return render(request , 'job_detail.html' , {'job' : jobPost , 'context' : context})
+
+        return render(request, 'job_detail.html', {'job': jobPost, 'context': context})
 
 class Posts(View):
     def get(self , request):
@@ -220,22 +347,52 @@ class JobPostUpdate(View):
         form.add_error(None, 'Invalid form submission.')
         return render(request, 'posts.html', {'form': form})
 
+from .forms import ResumeForm
+from .models import Resume
+
 class Settings(View):
-    def get(self , request):
+    def get(self, request):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
+
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
         profilePicture = request.session.get('profile_picture')
         user_id = request.session.get('user_id')
+
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
             'profile_picture': profilePicture,
             'user_id': user_id
         }
+
         if user_type == 'jobseeker':
             user = JobSeeker.objects.get(id=user_id)
-
+            resumes = Resume.objects.filter(jobSeeker=user)
+            resume_form = ResumeForm()
+            context.update({'user': user, 'resumes': resumes, 'resume_form': resume_form})
         else:
             user = Recruiter.objects.get(id=user_id)
+            context.update({'user': user})
+
+        return render(request, 'settings.html', {'context': context})
+
+    def post(self, request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+
+        user_id = request.session.get('user_id')
+        user_type = request.session.get('user_type')
+
+        if user_type == 'jobseeker':
+            jobseeker = JobSeeker.objects.get(id=user_id)
+            form = ResumeForm(request.POST, request.FILES)
+            if form.is_valid():
+                resume = form.save(commit=False)
+                resume.jobSeeker = jobseeker
+                resume.save()
+                messages.success(request, "CV ajouté avec succès.")
+            else:
+                messages.error(request, "Erreur lors de l'ajout du CV.")
+        return redirect('jobradar:settings')

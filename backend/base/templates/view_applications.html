@@ -1,0 +1,81 @@
+ {% extends 'base.html' %}
+{% block title %} Applications for {{ job_post.title }} {% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="d-flex gap-3">
+    <!-- Sidebar -->
+    <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'jobradar:home' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-briefcase"></i> Posts
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-100 p-3 d-flex flex-column justify-content-start align-items-start">
+
+
+        <h3 class="mb-3">Applications for: <span class="text-primary">{{ job_post.title }}</span></h3>
+
+        {% if applications %}
+        <div class="table-responsive w-100">
+            <table class="table table-bordered align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Applicant</th>
+                        <th>CV</th>
+                        <th>Motivation Letter</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app.jobSeeker.name }}</td>
+                        <td>
+                            <a href="{{ app.resume.filePath.url }}" target="_blank" class="btn btn-outline-primary btn-sm">View CV</a>
+                        </td>
+                        <td class="text-start">{{ app.motivation_letter }}</td>
+                        <td class="fw-bold {% if app.status == 'accepted' %}text-success{% elif app.status == 'rejected' %}text-danger{% else %}text-warning{% endif %}">
+                            {{ app.status|capfirst }}
+                        </td>
+                        <td>
+                            <form method="post" action="{% url 'jobradar:update-application-status' app.id %}">
+                                {% csrf_token %}
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <select name="status" class="form-select form-select-sm w-auto">
+                                        {% for key, value in app.STATUS_CHOICES %}
+                                        <option value="{{ key }}" {% if app.status == key %}selected{% endif %}>{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-success">Change</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info mt-3">No applications received for this job yet.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

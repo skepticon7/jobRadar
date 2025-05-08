@@ -69,6 +69,7 @@
                                        data-show-salary = "{{post.show_salary}}"
                                     ><i class="fa-solid fa-pen"></i></a>
                                     <a href="{% url 'jobradar:delete-jobpost' post.id %}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="{% url 'jobradar:view-applications' post.id %}" class="btn btn-info btn-sm"><i class="fa-solid fa-eye"></i> View CVs</a>
                                 </td>
                             </tr>
                         {%endfor%}
