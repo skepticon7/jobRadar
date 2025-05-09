@@ -3,36 +3,9 @@
 {% block content %}
 <!-- Include the navbar -->
 {% include 'navbar.html' %}
+
 <div class="d-flex gap-3 ">
-        <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-house"></i> Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                       <i class="fa-solid fa-gear"></i> Settings
-                    </a>
-                </li>
-                {% if context.user_type == 'jobseeker' %}
-                <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-envelope"></i>
-                        <p class="m-0">Applications</p>
-                    </a>
-                </li>
-                {% endif %}
-                {% if context.user_type == 'recruiter' %}
-                <li>
-                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-briefcase"></i> Posts
-                    </a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+    {% include 'sidebar.html' %}
         <div class="w-100 bg-dark d-flex justify-content-center align-items-center">
             <div class="card p-5 shadow">
                 <div class="card-body">

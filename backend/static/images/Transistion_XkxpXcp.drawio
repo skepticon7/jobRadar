@@ -1,0 +1,188 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.15 Chrome/134.0.6998.205 Electron/35.2.1 Safari/537.36" version="26.2.15">
+  <diagram name="Diagramme de Transition - Système de Réservation EMSI" id="p7fGR8AH7urJyX92EiXp">
+    <mxGraphModel dx="1209" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0" adaptiveColors="simple">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-2" value="" style="ellipse;fillColor=#182E3E;strokeColor=none;aspect=fixed;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="50" y="140" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-3" value="Disponible" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="120" y="130" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-4" value="Demande&#xa;Soumise" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="130" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-5" value="En Attente de&#xa;Validation" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="130" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-6" value="Réservation&#xa;Confirmée" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="815" y="130" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-7" value="Réservation&#xa;Refusée" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="600" y="270" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-8" value="Réservation&#xa;Annulée" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="800" y="270" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-9" value="Salle&#xa;Occupée" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="800" y="400" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-10" value="Salle&#xa;Libérée" style="rounded=1;whiteSpace=wrap;html=1;arcSize=40;fontColor=#FFFFFF;fillColor=#182E3E;strokeColor=#FFFFFF;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="530" y="400" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-11" value="" style="endArrow=classic;html=1;rounded=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-2" target="A7vvg7P3qQ900mHSWzqo-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="150" as="sourcePoint" />
+            <mxPoint x="190" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-12" value="Demande de réservation par&#xa;Enseignant" style="endArrow=classic;html=1;rounded=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-3" target="A7vvg7P3qQ900mHSWzqo-4">
+          <mxGeometry x="-0.1429" y="20" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="149.5" as="sourcePoint" />
+            <mxPoint x="390" y="149.5" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-13" value="Soumission de la&#xa;demande" style="endArrow=classic;html=1;rounded=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-4" target="A7vvg7P3qQ900mHSWzqo-5">
+          <mxGeometry x="-0.1429" y="20" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="149.5" as="sourcePoint" />
+            <mxPoint x="590" y="149.5" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-14" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;Validation par&lt;br&gt;Responsable Planification&lt;/font&gt;" style="endArrow=classic;html=1;rounded=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-5" target="A7vvg7P3qQ900mHSWzqo-6">
+          <mxGeometry x="-0.0476" y="30" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="149.5" as="sourcePoint" />
+            <mxPoint x="790" y="149.5" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-15" value="Refus par&#xa;Responsable Planification" style="endArrow=classic;html=1;rounded=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-5" target="A7vvg7P3qQ900mHSWzqo-7">
+          <mxGeometry y="-30" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="660" y="180" as="sourcePoint" />
+            <mxPoint x="660" y="260" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-16" value="Annulation par&#xa;Enseignant" style="endArrow=classic;html=1;rounded=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-6" target="A7vvg7P3qQ900mHSWzqo-8">
+          <mxGeometry x="0.1429" y="30" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="860" y="180" as="sourcePoint" />
+            <mxPoint x="860" y="260" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-17" value="Début de la&#xa;session" style="endArrow=classic;html=1;rounded=1;exitX=0.598;exitY=1.018;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;exitPerimeter=0;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-6">
+          <mxGeometry x="0.6522" y="30" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="850" y="170" as="sourcePoint" />
+            <mxPoint x="850" y="400" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="940" y="220" />
+              <mxPoint x="1000" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-18" value="Fin de la&#xa;session" style="endArrow=classic;html=1;rounded=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-9" target="A7vvg7P3qQ900mHSWzqo-10">
+          <mxGeometry x="-0.1429" y="-20" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="420" as="sourcePoint" />
+            <mxPoint x="730" y="420" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-19" value="Nettoyage et&#xa;réinitialisation" style="endArrow=classic;html=1;rounded=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-10" target="A7vvg7P3qQ900mHSWzqo-3">
+          <mxGeometry x="0.3382" y="-10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="390" as="sourcePoint" />
+            <mxPoint x="260" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="530" y="400" />
+              <mxPoint x="200" y="400" />
+              <mxPoint x="200" y="170" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-20" value="Retour en&#xa;disponibilité" style="endArrow=classic;html=1;rounded=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.878;entryY=0.96;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;entryPerimeter=0;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-7" target="A7vvg7P3qQ900mHSWzqo-3">
+          <mxGeometry x="0.5501" y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="290" as="sourcePoint" />
+            <mxPoint x="320" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="400" y="290" />
+              <mxPoint x="400" y="260" />
+              <mxPoint x="280" y="260" />
+              <mxPoint x="280" y="168" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-21" value="" style="endArrow=classic;html=1;rounded=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;labelBackgroundColor=none;strokeColor=#23445D;fontColor=default;" edge="1" parent="1" source="A7vvg7P3qQ900mHSWzqo-8" target="A7vvg7P3qQ900mHSWzqo-3">
+          <mxGeometry x="0.6087" y="-20" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="290" as="sourcePoint" />
+            <mxPoint x="330" y="170" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="800" y="340" />
+              <mxPoint x="500" y="340" />
+              <mxPoint x="500" y="220" />
+              <mxPoint x="370" y="220" />
+              <mxPoint x="370" y="160" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-39" value="" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];strokeColor=#FFFFFF;fontColor=#FFFFFF;fillColor=#182E3E;" vertex="1" connectable="0" parent="A7vvg7P3qQ900mHSWzqo-21">
+          <mxGeometry x="0.6599" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-22" value="Vérification de la disponibilité&#xa;en temps réel" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#182E3E;strokeColor=#FFFFFF;size=14;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="110" y="50" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-23" value="Notification automatique&#xa;aux utilisateurs concernés" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#182E3E;strokeColor=#FFFFFF;size=14;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="785" y="20" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-24" value="Mise à jour du planning&#xa;général de l&#39;établissement" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#182E3E;strokeColor=#FFFFFF;size=14;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="990" y="120" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-25" value="Synchronisation avec le&#xa;système de contrôle d&#39;accès" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#182E3E;strokeColor=#FFFFFF;size=14;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="950" y="390" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-26" value="Système" style="swimlane;startSize=20;horizontal=0;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;swimlaneFillColor=#f5f5f5;rounded=1;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="250" y="585" width="850" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-27" value="- Vérification automatique des conflits d&#39;horaires&#xa;- Envoi de notifications aux utilisateurs&#xa;- Mise à jour du planning général" style="text;html=1;strokeColor=#10739e;fillColor=#b1ddf0;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;labelBackgroundColor=none;" vertex="1" parent="A7vvg7P3qQ900mHSWzqo-26">
+          <mxGeometry x="20" width="830" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-28" value="Enseignant" style="swimlane;startSize=20;horizontal=0;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;swimlaneFillColor=#ffe6cc;rounded=1;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="250" y="655" width="850" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-29" value="- Soumettre une demande de réservation&#xa;- Consulter l&#39;état de ses demandes&#xa;- Annuler une réservation" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="A7vvg7P3qQ900mHSWzqo-28">
+          <mxGeometry x="20" width="830" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-30" value="Responsable Planification" style="swimlane;startSize=20;horizontal=0;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;swimlaneFillColor=#d5e8d4;rounded=1;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="250" y="725" width="850" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-31" value="- Valider ou refuser les demandes de réservation&#xa;- Modifier le planning des salles&#xa;- Gérer les conflits d&#39;horaires" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="A7vvg7P3qQ900mHSWzqo-30">
+          <mxGeometry x="20" width="830" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-32" value="Administrateur" style="swimlane;startSize=20;horizontal=0;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;swimlaneFillColor=#dae8fc;rounded=1;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="250" y="795" width="850" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-33" value="- Gérer les comptes utilisateurs&#xa;- Gérer les informations des salles&#xa;- Consulter les rapports d&#39;utilisation des salles" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=1;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="A7vvg7P3qQ900mHSWzqo-32">
+          <mxGeometry x="20" width="830" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-34" value="[si salle disponible à la date et heure demandées]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;fontStyle=2;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="550" y="90" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-35" value="[si conflit d&#39;horaire ou capacité insuffisante]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;fontStyle=2;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="660" y="240" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-36" value="[heure de fin dépassée]" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;fontStyle=2;labelBackgroundColor=none;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="660" y="420" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="A7vvg7P3qQ900mHSWzqo-40" value="&lt;span style=&quot;color: rgb(255, 255, 255); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(27, 29, 30); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;Retour en&lt;/span&gt;&lt;br style=&quot;forced-color-adjust: none; box-shadow: none !important; color: rgb(255, 255, 255); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(27, 29, 30); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;&quot;&gt;&lt;span style=&quot;color: rgb(255, 255, 255); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(27, 29, 30); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;disponibilité&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="384" y="180" width="60" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

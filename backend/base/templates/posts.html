@@ -2,30 +2,10 @@
 {% load custom_tag %}
 {% block title %} Homepage {% endblock title %}
 {% block content %}
-
-
-
 {% include 'navbar.html' %}
+{% include 'sidebar.html' %}
+
 <div class="d-flex gap-3 ">
-        <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a href="{% url 'jobradar:home' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2 ">
-                        <i class="fa-solid fa-house"></i> Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                       <i class="fa-solid fa-gear"></i> Settings
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-briefcase"></i> Posts
-                    </a>
-                </li>
-            </ul>
-        </div>
         <div class="w-100 p-3 d-flex flex-column justify-content-start align-items-start">
             <div class="d-flex flex-column">
                 <button id="addJobPost" class="btn btn-success">Add job post + </button>

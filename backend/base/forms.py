@@ -4,15 +4,33 @@ from django import forms
 from django.core.exceptions import ValidationError
 from . import models
 from django import forms
-
+import os
 from django import forms
 from django import forms
 from .models import Resume
+
+
+def validate_cv_file(file):
+    
+    ALLOWED_CV_EXTENSIONS = ['.docx', '.doc', '.pdf', '.txt', '.odt', '.rtf']
+
+    ext = os.path.splitext(file.name)[1].lower()       
+    if ext not in ALLOWED_CV_EXTENSIONS:
+        raise ValidationError(f"Unsupported file extension: {ext}. Allowed formats: {', '.join(ALLOWED_CV_EXTENSIONS)}")
+
 
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['filePath']
+    def clean_filePath(self):
+        file = self.cleaned_data.get('filePath')
+        if file:
+            try:
+                validate_cv_file(file)
+            except ValidationError as e:
+                raise forms.ValidationError(str(e)) 
+        return file
 
 class LoginForm(forms.Form):
     email = forms.EmailField(
