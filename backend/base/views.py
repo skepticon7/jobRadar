@@ -24,6 +24,38 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import JobPost, Application
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponseForbidden
+from .models import Resume, JobSeeker
+from django.shortcuts import render
+from .models import JobPost
+from django.shortcuts import render
+from django.db.models import Q
+from .models import JobPost
+
+
+class ResumeDelete(View):
+    def post(self, request, id):
+        user_id = request.session.get('user_id')
+
+        # Vérifie si l'utilisateur est connecté via session
+        if not user_id:
+            return redirect('jobradar:login')
+
+        # Récupère l'utilisateur connecté
+        job_seeker = get_object_or_404(JobSeeker, id=user_id)
+
+        # Récupère le CV et vérifie s’il appartient à cet utilisateur
+        resume = get_object_or_404(Resume, id=id)
+
+        if resume.jobSeeker != job_seeker:
+            return HttpResponseForbidden("Tu n'as pas le droit de supprimer ce CV.")
+
+        # Supprime le CV
+        resume.delete()
+        return redirect('jobradar:settings')
+
 
 
 from django.views import View
@@ -206,21 +238,44 @@ class Home(View):
         return render(request, 'home.html' , {'context' : context})
 
 
+from django.shortcuts import render, redirect
+from django.views import View
+from django.db.models import Q
+from .models import JobPost
+
 class JobPosts(View):
-    def get(self , request):
+    def get(self, request):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
-        print("here in jobposts")
+
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
-        profilePicture = request.session.get('profile_picture')
+        profile_picture = request.session.get('profile_picture')
+
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
-            'profile_picture': profilePicture
+            'profile_picture': profile_picture
         }
-        job_posts = JobPost.objects.all().select_related('recruiter')
-        return render(request , 'jobOffers.html' , {'job_posts' : job_posts , 'context' : context})
+
+        query = request.GET.get('q', '')
+
+        job_posts = JobPost.objects.select_related('recruiter')
+
+        if query:
+            job_posts = job_posts.filter(
+                Q(title__icontains=query) |
+                Q(location__icontains=query) |
+                Q(recruiter__name__icontains=query) |
+                Q(recruiter__company_name__icontains=query)
+            )
+
+        return render(request, 'jobOffers.html', {
+            'job_posts': job_posts,
+            'context': context,
+            'query': query
+        })
+
 
 class RegisterSuccess(View):
     def get(self , request):
@@ -409,20 +464,24 @@ class deleteApplication(View):
 
 
 
+from django.shortcuts import render, redirect
+from django.views import View
+from django.contrib import messages
+from .models import JobSeeker, Recruiter, Resume
+from .forms import ResumeForm
+
 class Settings(View):
     def get(self, request):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
 
-        user_fullname = request.session.get('user_name')
-        user_type = request.session.get('user_type')
-        profilePicture = request.session.get('profile_picture')
         user_id = request.session.get('user_id')
+        user_type = request.session.get('user_type')
+        user_fullname = request.session.get('user_name')
 
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
-            'profile_picture': profilePicture,
             'user_id': user_id
         }
 
@@ -430,10 +489,15 @@ class Settings(View):
             user = JobSeeker.objects.get(id=user_id)
             resumes = Resume.objects.filter(jobSeeker=user)
             resume_form = ResumeForm()
-            context.update({'user': user, 'resumes': resumes, 'resume_form': resume_form})
+            context.update({
+                'user': user,
+                'resumes': resumes,
+                'resume_form': resume_form,
+                'profile_picture': user.profile_picture.url if user.profile_picture else None  # Ajout de la photo de profil dans le contexte
+            })
         else:
             user = Recruiter.objects.get(id=user_id)
-            context.update({'user': user})
+            context.update({'user': user, 'profile_picture': user.profile_picture.url if user.profile_picture else None})
 
         return render(request, 'settings.html', {'context': context})
 
@@ -443,8 +507,9 @@ class Settings(View):
 
         user_id = request.session.get('user_id')
         user_type = request.session.get('user_type')
+        action = request.POST.get('action')
 
-        if user_type == 'jobseeker':
+        if action == 'add_resume' and user_type == 'jobseeker':
             jobseeker = JobSeeker.objects.get(id=user_id)
             form = ResumeForm(request.POST, request.FILES)
             if form.is_valid():
@@ -454,4 +519,35 @@ class Settings(View):
                 messages.success(request, "CV ajouté avec succès.")
             else:
                 messages.error(request, "Erreur lors de l'ajout du CV.")
+
+        elif action == 'update_profile':
+            if user_type == 'jobseeker':
+                user = JobSeeker.objects.get(id=user_id)
+            else:
+                user = Recruiter.objects.get(id=user_id)
+
+            name = request.POST.get('name')
+            if not name:
+                messages.error(request, "Le nom est requis.")
+                return redirect('jobradar:settings')
+
+            user.name = name
+            user.email = request.POST.get('email')
+            user.phone_number = request.POST.get('phone_number')
+            user.profession = request.POST.get('profession')
+
+            if request.FILES.get('profile_picture'):
+                user.profile_picture = request.FILES['profile_picture']
+
+            if user_type == 'recruiter':
+                user.position_title = request.POST.get('position_title')
+                user.department = request.POST.get('department')
+                user.company_name = request.POST.get('company_name')
+
+            user.save()
+            request.session['user_name'] = user.name
+            messages.success(request, "Profil mis à jour avec succès.")
+
         return redirect('jobradar:settings')
+
+

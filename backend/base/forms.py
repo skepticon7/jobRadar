@@ -13,7 +13,20 @@ class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['filePath']
+        widgets = {
+            'filePath': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
+    def clean_filePath(self):
+        file = self.cleaned_data.get('filePath', False)
+        if file:
+            if file.size > 5*1024*1024:  # 5MB limit
+                raise forms.ValidationError("Le fichier est trop volumineux (limite : 5MB).")
+            if not file.name.endswith(('.pdf', '.doc', '.docx')):
+                raise forms.ValidationError("Le format du fichier doit être PDF, DOC ou DOCX.")
+            return file
+        else:
+            raise forms.ValidationError("Aucun fichier sélectionné.")
 class LoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',
