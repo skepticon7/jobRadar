@@ -1,0 +1,222 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.15 Chrome/134.0.6998.205 Electron/35.2.1 Safari/537.36" version="26.2.15">
+  <diagram name="Page-1" id="43BYc_ORox_wi2HvgKNy">
+    <mxGraphModel dx="1123" dy="737" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lZQcIk10riGcIy333Fg0-2" value="Utilisateur" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="80" width="100" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-3" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="lZQcIk10riGcIy333Fg0-2" vertex="1">
+          <mxGeometry x="45" y="70" width="10" height="500" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-4" value="Système d&#39;Identification" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="80" width="140" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-5" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="lZQcIk10riGcIy333Fg0-4" vertex="1">
+          <mxGeometry x="65" y="70" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-6" value="Se connecter(identifiant, motDePasse)" style="verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-3" target="lZQcIk10riGcIy333Fg0-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="150" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-7" value="Session authentifiée" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-5" target="lZQcIk10riGcIy333Fg0-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="196" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-8" value="Système de Gestion des Salles" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="80" width="180" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-9" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="lZQcIk10riGcIy333Fg0-8" vertex="1">
+          <mxGeometry x="85" y="180" width="10" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-10" value="Base de Données" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="600" y="80" width="100" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-11" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="lZQcIk10riGcIy333Fg0-10" vertex="1">
+          <mxGeometry x="45" y="70" width="10" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-12" value="Système de Notification" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="740" y="80" width="140" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-13" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="lZQcIk10riGcIy333Fg0-12" vertex="1">
+          <mxGeometry x="65" y="340" width="10" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-14" value="Vérifier(identifiant, motDePasse)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-5" target="lZQcIk10riGcIy333Fg0-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="190" as="sourcePoint" />
+            <mxPoint x="640" y="190" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="390" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-15" value="Authentification réussie" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-11" target="lZQcIk10riGcIy333Fg0-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="210" as="targetPoint" />
+            <mxPoint x="650" y="210" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="430" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-16" value="Rechercher salle disponible(date, heure, durée, capacité)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-3" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="280" as="sourcePoint" />
+            <mxPoint x="460" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-17" value="Consulter disponibilité(date, heure, durée, capacité)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="475" y="300" as="sourcePoint" />
+            <mxPoint x="645" y="300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="530" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-18" value="Liste des salles disponibles" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-11" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="330" as="targetPoint" />
+            <mxPoint x="650" y="330" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="530" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-19" value="Afficher les salles disponibles" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="350" as="targetPoint" />
+            <mxPoint x="460" y="350" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="280" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-20" value="Sélectionner une salle(idSalle)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-3" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="380" as="sourcePoint" />
+            <mxPoint x="460" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="260" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-21" value="Vérifier disponibilité actuelle" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;edgeStyle=elbowEdgeStyle;elbow=vertical;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="475" y="390" as="sourcePoint" />
+            <mxPoint x="480" y="410" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="520" y="400" />
+              <mxPoint x="520" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-22" value="Réserver salle(idSalle, date, heure, durée, idUtilisateur)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="430" as="sourcePoint" />
+            <mxPoint x="650" y="430" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="540" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-23" value="Confirmation de réservation" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-11" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="450" as="targetPoint" />
+            <mxPoint x="650" y="450" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="540" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-24" value="Créer notification(idUtilisateur, détails)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-13" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="470" as="sourcePoint" />
+            <mxPoint x="800" y="470" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-25" value="Envoyer confirmation(email, détails)" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-13" target="lZQcIk10riGcIy333Fg0-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="490" as="targetPoint" />
+            <mxPoint x="800" y="490" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="430" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-26" value="Consulter mes réservations()" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-3" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="530" as="sourcePoint" />
+            <mxPoint x="460" y="530" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="260" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-27" value="Récupérer réservations(idUtilisateur)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="550" as="sourcePoint" />
+            <mxPoint x="650" y="550" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="540" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-28" value="Liste des réservations" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-11" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="570" as="targetPoint" />
+            <mxPoint x="650" y="570" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="540" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-29" value="Afficher les réservations" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="590" as="targetPoint" />
+            <mxPoint x="460" y="590" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="280" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-30" value="Modifier/Annuler réservation(idRéservation)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-3" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="610" as="sourcePoint" />
+            <mxPoint x="460" y="610" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="260" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-31" value="Mettre à jour/Supprimer réservation(idRéservation)" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-9" target="lZQcIk10riGcIy333Fg0-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="630" as="sourcePoint" />
+            <mxPoint x="650" y="630" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="560" y="630" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lZQcIk10riGcIy333Fg0-32" value="Confirmation de mise à jour" style="verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;shadow=0;strokeWidth=1;" parent="1" source="lZQcIk10riGcIy333Fg0-11" target="lZQcIk10riGcIy333Fg0-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="650" as="targetPoint" />
+            <mxPoint x="650" y="650" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="560" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
