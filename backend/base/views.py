@@ -409,6 +409,12 @@ class deleteApplication(View):
 
 
 
+"""
+    Add : CV extensions to only :  (.docx, .doc, .pdf, .txt, .odt, .rtf)
+    Function get call in : form.is_valid()
+"""
+
+
 class Settings(View):
     def get(self, request):
         if not request.session.get('user_id'):
@@ -453,5 +459,67 @@ class Settings(View):
                 resume.save()
                 messages.success(request, "CV ajouté avec succès.")
             else:
-                messages.error(request, "Erreur lors de l'ajout du CV.")
+                messages.error(request, "Format de fichier invalide!!")
         return redirect('jobradar:settings')
+
+
+
+
+"""
+    Profile :
+"""
+
+# @login_required(login_url='jobradar:login')
+
+class Profile(View):
+
+    def get(self, request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        user_id = request.session.get('user_id')
+
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture,
+            'user_id': user_id
+        }
+
+        if user_type == 'jobseeker':
+            user = JobSeeker.objects.get(id=user_id)
+            resumes = Resume.objects.filter(jobSeeker=user)
+
+            recent_applications = Application.objects.filter(jobSeeker=user).order_by('-created_at')[:5]
+            applications_count = Application.objects.filter(jobSeeker=user).count()
+            
+            context.update({
+                'user': user, 
+                'resumes': resumes,
+                'recent_applications': recent_applications,
+                'applications_count': applications_count,
+                'profile_views': 0  
+            })
+        else:
+            user = Recruiter.objects.get(id=user_id)
+
+            recent_job_posts = JobPost.objects.filter(recruiter=user).order_by('-created_at')[:5]
+            job_posts_count = JobPost.objects.filter(recruiter=user).count()
+            active_jobs = JobPost.objects.filter(recruiter=user, status='ongoing').count()
+ 
+            applications_received = Application.objects.filter(jobPost__recruiter=user).count()
+            
+            context.update({
+                'user': user,
+                'recent_job_posts': recent_job_posts,
+                'job_posts_count': job_posts_count,
+                'applications_received': applications_received,
+                'active_jobs': active_jobs
+            })
+
+        return render(request, 'profile.html', {'context': context}) 
+
+    

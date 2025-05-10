@@ -12,13 +12,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <a href="{% url 'jobradar:settings' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                        <i class="fa-solid fa-gear"></i> Settings
                     </a>
                 </li>
                 {% if context.user_type == 'jobseeker' %}
                 <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <a href="{% url 'jobradar:applications'%}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                         <i class="fa-solid fa-envelope"></i>
                         <p class="m-0">Applications</p>
                     </a>
@@ -31,6 +31,11 @@
                     </a>
                 </li>
                 {% endif %}
+                <li>
+                    <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Profile
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="w-100 bg-dark d-flex justify-content-center align-items-center">

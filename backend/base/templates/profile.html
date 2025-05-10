@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile | Job Radar{% endblock title %}
+{% include 'navbar.html' %}
+
+{% block content %}
+
+<div class="container py-7">
+
+    <div class="d-flex gap-4">
+        <div class="col-lg-4 mb-2 mb-lg-0">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Profile Information</h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="{{ context.profile_picture }}" alt="Profile Picture" class="rounded-circle img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    <h4 class="mb-1">{{ context.user.name }}</h4>
+                    <p class="text-muted mb-3">{{ context.user.profession }}</p>
+                    <div class="d-flex justify-content-center mb-3">
+                        {% if context.user_type == 'jobseeker' %}
+                            <span class="badge bg-success">Job Seeker</span>
+                        {% else %}
+                            <span class="badge bg-primary">Recruiter</span>
+                        {% endif %}
+                    </div>
+                    <div class="text-start mt-4">
+                        <div class="mb-3">
+                            <i class="fas fa-envelope me-2"></i> 
+                            <span class="text-muted">Email:</span> {{ context.user.email }}
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-phone me-2"></i> 
+                            <span class="text-muted">Phone:</span> {{ context.user.phone_number }}
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-clock me-2"></i> 
+                            <span class="text-muted">Member since:</span> {{ context.user.created_at|date:"F j, Y" }}
+                        </div>
+                        
+                        {% if context.user_type == 'recruiter' %}
+                        <div class="mb-3">
+                            <i class="fas fa-building me-2"></i> 
+                            <span class="text-muted">Company:</span> {{ context.user.company_name }}
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-briefcase me-2"></i> 
+                            <span class="text-muted">Position:</span> {{ context.user.position_title }}
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-users me-2"></i> 
+                            <span class="text-muted">Department:</span> {{ context.user.department }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-center">
+                    <a href="{% url 'jobradar:settings' %}" class="btn btn-primary">
+                        <i class="fas fa-cog me-2"></i>Manage Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Activity Summary</h5>
+                </div>
+                <div class="card-body">
+                    {% if context.user_type == 'jobseeker' %}
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="p-3 bg-light rounded">
+                                    <h2 class="mb-1">{{ context.applications_count|default:"0" }}</h2>
+                                    <p class="text-muted mb-0">Applications</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="p-3 bg-light rounded">
+                                    <h2 class="mb-1">{{ context.resumes|length|default:"0" }}</h2>
+                                    <p class="text-muted mb-0">Resumes</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h2 class="mb-1">{{ context.profile_views|default:"0" }}</h2>
+                                    <p class="text-muted mb-0">Profile Views</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="p-3 bg-light rounded">
+                                    <h2 class="mb-1">{{ context.job_posts_count|default:"0" }}</h2>
+                                    <p class="text-muted mb-0">Job Posts</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="p-3 bg-light rounded">
+                                    <h2 class="mb-1">{{ context.applications_received|default:"0" }}</h2>
+                                    <p class="text-muted mb-0">Applications Received</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded">
+                                    <h2 class="mb-1">{{ context.active_jobs|default:"0" }}</h2>
+                                    <p class="text-muted mb-0">Active Jobs</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if context.user_type == 'jobseeker' %}
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Applications</h5>
+                    <a href="{% url 'jobradar:applications' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    {% if context.recent_applications %}
+                        <div class="list-group">
+                            {% for application in context.recent_applications %}
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ application.jobPost.title }}</h6>
+                                        <small class="text-muted">{{ application.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ application.jobPost.recruiter.company_name }}</p>
+                                    <small class="text-muted">
+                                        {% if application.status == 'pending' %}
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        {% elif application.status == 'accepted' %}
+                                            <span class="badge bg-success">Accepted</span>
+                                        {% elif application.status == 'rejected' %}
+                                            <span class="badge bg-danger">Rejected</span>
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                            <p>No applications yet</p>
+                            <a href="{% url 'jobradar:jobPosts' %}" class="btn btn-primary">Browse Jobs</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">My Resumes</h5>
+                    <a href="{% url 'jobradar:settings' %}" class="btn btn-sm btn-outline-primary">Manage</a>
+                </div>
+                <div class="card-body">
+                    {% if context.resumes %}
+                        <div class="list-group">
+                            {% for resume in context.resumes %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                                        <a href="{{ resume.filePath.url }}" target="_blank">{{ resume.filePath.name }}</a>
+                                        <small class="text-muted ms-2">Uploaded on {{ resume.created_at|date:"F j, Y" }}</small>
+                                    </div>
+                                    <div>
+                                        <a href="{{ resume.filePath.url }}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-file-upload fa-3x text-muted mb-3"></i>
+                            <p>No resume uploaded yet</p>
+                            <a href="{% url 'jobradar:settings' %}" class="btn btn-primary">Upload Resume</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <!-- (for recruiters) -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Job Posts</h5>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    {% if context.recent_job_posts %}
+                        <div class="list-group">
+                            {% for job in context.recent_job_posts %}
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">{{ job.title }}</h6>
+                                        <small class="text-muted">{{ job.created_at|date:"M d, Y" }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ job.location }}</p>
+                                    <small class="text-muted">
+                                        {% if job.status == 'ongoing' %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Closed</span>
+                                        {% endif %}
+                                        <span class="ms-2">{{ job.applications.count }} applications</span>
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                            <p>No job posts yet</p>
+                            <a href="#" class="btn btn-primary">Create Job Post</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .rounded-circle {
+        object-fit: cover;
+    }
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+    .list-group-item-action:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock content %}

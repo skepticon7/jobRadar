@@ -15,14 +15,20 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                <a href="{% url 'jobradar:settings' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                    <i class="fa-solid fa-gear"></i> Settings
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                     <i class="fa-solid fa-envelope"></i>
                     <p class="m-0">Applications</p>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p class="m-0">Profile</p>
                 </a>
             </li>
         </ul>
