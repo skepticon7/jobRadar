@@ -26,17 +26,6 @@ class ResumeForm(forms.ModelForm):
         model = Resume
         fields = ['filePath']
 
-    def clean_filePath(self):
-        file = self.cleaned_data.get('filePath')
-        if file:
-            try:
-                validate_cv_file(file)
-            except ValidationError as e:
-                raise forms.ValidationError(str(e)) 
-        return file
-    
-
-
 class LoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',

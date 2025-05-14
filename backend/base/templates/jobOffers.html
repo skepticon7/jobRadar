@@ -3,12 +3,13 @@
 {% block content %}
 <!-- Include the navbar -->
 {% include 'navbar.html' %}
+
 <div class="d-flex gap-3">
     <!-- Sidebar -->
-    <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+    <div class="d-flex flex-column text-left flex-shrink-0 bg-light overflow-y-auto" style="width: 250px; min-height: 100vh;">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2 ">
+                <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                     <i class="fa-solid fa-house"></i> Home
                 </a>
             </li>
@@ -18,10 +19,15 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-envelope"></i>
-                    <p class="m-0">Applications</p>
-                </a>
+                    {% if context.user_type == 'recruiter' %}
+                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Posts
+                    </a>
+                    {% elif context.user_type == 'jobseeker' %}
+                    <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Applications
+                    </a>
+                    {% endif %}
             </li>
             <li>
                 <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
@@ -34,6 +40,14 @@
 
     <!-- Main Content -->
     <div class="w-100 p-3">
+        <!-- Search Bar -->
+        <form method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search a job (title, location...)" value="{{ request.GET.q }}">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </div>
+        </form>
+
         {% if job_posts %}
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for job in job_posts %}
@@ -73,7 +87,7 @@
         </div>
         {% else %}
         <div class="alert alert-info">
-            <p>No job posts available at this time</p>
+            <p>Aucune offre trouvée.</p>
         </div>
         {% endif %}
     </div>

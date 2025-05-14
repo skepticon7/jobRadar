@@ -3,7 +3,7 @@
 {% block content %}
 {% include 'navbar.html' %}
 <div class="d-flex gap-3">
-    <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+    <div class="d-flex flex-column text-left flex-shrink-0 bg-light overflow-y-auto" style="width: 250px; min-height: 100vh;">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
@@ -11,14 +11,20 @@
                 </a>
             </li>
             <li>
-                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <a href="{% url 'jobradar:settings' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                        <i class="fa-solid fa-gear"></i> Settings
                     </a>
             </li>
             <li>
-                    <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-briefcase"></i> Applications
+                    {% if context.user_type == 'recruiter' %}
+                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Posts
                     </a>
+                    {% elif context.user_type == 'jobseeker' %}
+                    <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Applications
+                    </a>
+                    {% endif %}
             </li>
              <li>
                     <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
