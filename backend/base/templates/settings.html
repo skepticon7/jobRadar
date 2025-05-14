@@ -6,8 +6,7 @@
 {% include 'navbar.html' %}
 
 <div class="d-flex gap-3">
-    <!-- Sidebar -->
-    <div class="d-flex flex-column text-left flex-shrink-0 bg-light" style="width: 250px; height: 100vh;">
+    <div class="d-flex overflow-y-auto flex-column text-left flex-shrink-0 bg-light" style="width: 250px;">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
@@ -20,10 +19,15 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-envelope"></i>
-                    <p class="m-0">Applications</p>
-                </a>
+                    {% if context.user_type == 'recruiter' %}
+                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Posts
+                    </a>
+                    {% elif context.user_type == 'jobseeker' %}
+                    <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Applications
+                    </a>
+                    {% endif %}
             </li>
         </ul>
     </div>
@@ -47,12 +51,12 @@
         <!-- Formulaire de modification de profil -->
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">Modifier le profil</h5>
+                <h5 class="card-title">Edit your profile</h5>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     <div class="mb-3">
-                        <label  class="form-label">Nom</label>
+                        <label  class="form-label">Name</label>
                         <input type="text" name="name" value="{{ context.user.name }}" required class="form-control" placeholder="Nom">
                     </div>
 
@@ -62,7 +66,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label  class="form-label">Téléphone</label>
+                        <label  class="form-label">Phone Number</label>
                         <input type="text" name="phone_number" value="{{ context.user.phone_number }}" class="form-control" placeholder="Téléphone">
                     </div>
 
@@ -73,27 +77,27 @@
 
                     {% if context.user_type == 'recruiter' %}
                         <div class="mb-3">
-                            <label  class="form-label">Poste</label>
+                            <label  class="form-label">Position</label>
                             <input type="text" name="position_title" value="{{ context.user.position_title }}" class="form-control" placeholder="Poste">
                         </div>
 
                         <div class="mb-3">
-                            <label  class="form-label">Département</label>
+                            <label  class="form-label">Department</label>
                             <input type="text" name="department" value="{{ context.user.department }}" class="form-control" placeholder="Département">
                         </div>
 
                         <div class="mb-3">
-                            <label  class="form-label">Entreprise</label>
+                            <label  class="form-label">Company</label>
                             <input type="text" name="company_name" value="{{ context.user.company_name }}" class="form-control" placeholder="Entreprise">
                         </div>
                     {% endif %}
 
                     <div class="mb-3">
-                        <label  class="form-label">Photo de profil</label>
+                        <label  class="form-label">Profile Picture</label>
                         <input type="file" name="profile_picture" class="form-control">
                     </div>
 
-                    <button type="submit" name="action" value="update_profile" class="btn btn-primary mt-2">Mettre à jour le profil</button>
+                    <button type="submit" name="action" value="update_profile" class="btn btn-primary mt-2">Save changes</button>
                 </form>
             </div>
         </div>

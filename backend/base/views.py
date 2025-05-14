@@ -199,7 +199,7 @@ class LoginView(View):
                     request.session['user_type'] = 'recruiter'
                     request.session['user_name'] = user.name
                     request.session['profile_picture'] = user.profile_picture.url
-                    return redirect('jobradar:home')
+                    return redirect('jobradar:jobPosts')
             except Recruiter.DoesNotExist:
                 pass
 
@@ -247,11 +247,9 @@ class JobPosts(View):
     def get(self, request):
         if not request.session.get('user_id'):
             return redirect('jobradar:login')
-
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
         profile_picture = request.session.get('profile_picture')
-
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
@@ -380,6 +378,8 @@ class Posts(View):
         user_type = request.session.get('user_type')
         profilePicture = request.session.get('profile_picture')
         user_id = request.session.get('user_id')
+        print("usertype" + user_type)
+
         posts = JobPost.objects.filter(recruiter_id = user_id).annotate(total_posts=Count('applications'))
         form = CreateJobPost()
         context = {
@@ -493,7 +493,7 @@ class Settings(View):
                 'user': user,
                 'resumes': resumes,
                 'resume_form': resume_form,
-                'profile_picture': user.profile_picture.url if user.profile_picture else None  # Ajout de la photo de profil dans le contexte
+                'profile_picture': user.profile_picture.url if user.profile_picture else None
             })
         else:
             user = Recruiter.objects.get(id=user_id)
@@ -546,6 +546,7 @@ class Settings(View):
 
             user.save()
             request.session['user_name'] = user.name
+            request.session['profile_picture'] = user.profile_picture.url
             messages.success(request, "Profil mis à jour avec succès.")
 
         return redirect('jobradar:settings')
