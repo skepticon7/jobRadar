@@ -50,7 +50,7 @@ class ResumeDelete(View):
         resume = get_object_or_404(Resume, id=id)
 
         if resume.jobSeeker != job_seeker:
-            return HttpResponseForbidden("Tu n'as pas le droit de supprimer ce CV.")
+            return HttpResponseForbidden("Forbidden : No Rights to modify this")
 
         # Supprime le CV
         resume.delete()
@@ -77,7 +77,7 @@ class ViewApplications(View):
 
         # Vérifie que l'utilisateur est un recruteur
         if user_type != 'recruiter':
-            return HttpResponseForbidden("Vous n'avez pas la permission d'accéder à cette page.")
+            return HttpResponseForbidden("Forbidden : No Rights to modify this")
 
         # Récupère le poste du recruteur
         job_post = get_object_or_404(JobPost, id=post_id, recruiter_id=user_id)
@@ -112,7 +112,7 @@ class UpdateApplicationStatus(View):
 
         # Autorisation : uniquement les recruteurs
         if user_type != 'recruiter':
-            return HttpResponseForbidden("Vous n'avez pas la permission de modifier cette candidature.")
+            return HttpResponseForbidden("Forbidden : No Rights to modify this")
 
         # Récupération de la candidature et de l'offre associée
         application = get_object_or_404(Application, id=app_id)
@@ -120,7 +120,7 @@ class UpdateApplicationStatus(View):
 
         # Vérification que le recruteur est le propriétaire de l'offre
         if job_post.recruiter.id != user_id:
-            return HttpResponseForbidden("Vous n'êtes pas autorisé à modifier cette candidature.")
+            return HttpResponseForbidden("Forbidden : No Rights to modify this")
 
         # Mise à jour du statut de la candidature
         new_status = request.POST.get('status')
@@ -516,9 +516,9 @@ class Settings(View):
                 resume = form.save(commit=False)
                 resume.jobSeeker = jobseeker
                 resume.save()
-                messages.success(request, "CV ajouté avec succès.")
+                messages.success(request, "CV has been added")
             else:
-                messages.error(request, "Erreur lors de l'ajout du CV.")
+                messages.error(request, "Error adding a new CV")
 
         elif action == 'update_profile':
             if user_type == 'jobseeker':
@@ -547,7 +547,7 @@ class Settings(View):
             user.save()
             request.session['user_name'] = user.name
             request.session['profile_picture'] = user.profile_picture.url
-            messages.success(request, "Profil mis à jour avec succès.")
+            messages.success(request, "Profile is up to date")
 
         return redirect('jobradar:settings')
 
