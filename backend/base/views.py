@@ -203,9 +203,8 @@ class LoginView(View):
             except Recruiter.DoesNotExist:
                 pass
 
-            form.add_error(None, 'Email ou mot de passe invalide.')
-
-        return render(request, 'login.html', {'form': form})
+        messages.error(request, 'Email ou mot de passe invalide.')
+        return redirect("jobradar:login")
 
 
 class LogoutView(View):
@@ -213,10 +212,7 @@ class LogoutView(View):
         request.session.flush()  # Supprimer toutes les données de session
         return redirect('jobradar:login')
 
-# class listjob(View):
-#     def get(self, request):
-#         job_posts = JobPost.objects.all()
-#         return render(request, 'listjob.html', {'job_posts': job_posts})
+
 
 
 
@@ -557,9 +553,33 @@ class Settings(View):
             if user_type == 'jobseeker':
                 user = JobSeeker.objects.get(id=user_id)
             else:
-                messages.error(request, "Erreur lors de l'ajout du CV.")
+                user = Recruiter.objects.get(id=user_id)
+
+            name = request.POST.get('name')
+            if not name:
+                messages.error(request, "Le nom est requis.")
+                return redirect('jobradar:settings')
+
+            user.name = name
+            user.email = request.POST.get('email')
+            user.phone_number = request.POST.get('phone_number')
+            user.profession = request.POST.get('profession')
+
+            if request.FILES.get('profile_picture'):
+                user.profile_picture = request.FILES['profile_picture']
+
+            if user_type == 'recruiter':
+                user.position_title = request.POST.get('position_title')
+                user.department = request.POST.get('department')
+                user.company_name = request.POST.get('company_name')
+
+            user.save()
+            request.session['user_name'] = user.name
+            request.session['profile_picture'] = user.profile_picture.url
+            messages.success(request, "Profile is up to date")
+
         return redirect('jobradar:settings')
-<<<<<<< HEAD
+
 
 
 
@@ -620,5 +640,4 @@ class Profile(View):
         return render(request, 'profile.html', {'context': context}) 
 
    
-=======
->>>>>>> d7df771719921d577abc60dcd9b3da6353ab152d
+

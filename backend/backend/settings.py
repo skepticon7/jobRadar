@@ -80,7 +80,7 @@ DATABASES = {
         'USER' : 'root',
         'PASSWORD' : '1234',
         'HOST' : 'localhost',
-        'PORT' : '3308',
+        'PORT' : '3306',
         'OPTIONS': {
             'sql_mode': 'STRICT_TRANS_TABLES',
         }

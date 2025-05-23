@@ -34,11 +34,6 @@
                     </a>
                     {% endif %}
                 </li>
-                <li>
-                    <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-briefcase"></i> Profile
-                    </a>
-                </li>
             </ul>
         </div>
         <div class="w-100 p-3 d-flex flex-column justify-content-start align-items-start">
@@ -92,8 +87,8 @@
                 </table>
             </div>
             {% else %}
-            <div class="bg-light">
-                <p>You have no job posts</p>
+            <div class="alert alert-info ">
+                You have no job posts
             </div>
             {% endif %}
         </div>

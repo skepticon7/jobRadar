@@ -17,11 +17,8 @@ urlpatterns = [
     path('applications/' , views.Applications.as_view() , name='applications'),
     path('deleteApplication/<int:id>' , views.deleteApplication.as_view() , name='delete-application'),
     path('application/<int:app_id>/update-status/', views.UpdateApplicationStatus.as_view(), name='update-application-status'),
-<<<<<<< HEAD
     path('settings' , views.Settings.as_view() , name='settings'),
     path('deleteResume/<int:id>/', views.ResumeDelete.as_view(), name='deleteresume'),
     path('profile/', views.Profile.as_view(), name='profile'),
-=======
     path('settings' , views.Settings.as_view() , name='settings')
->>>>>>> d7df771719921d577abc60dcd9b3da6353ab152d
 ]

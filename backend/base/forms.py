@@ -10,8 +10,7 @@ from django import forms
 from .models import Resume
 
 
-<<<<<<< HEAD
-=======
+
 
 def validate_cv_file(file):
     import os
@@ -23,13 +22,11 @@ def validate_cv_file(file):
 
 
 
->>>>>>> d7df771719921d577abc60dcd9b3da6353ab152d
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['filePath']
 
-<<<<<<< HEAD
     def clean_filePath(self):
         file = self.cleaned_data.get('filePath', False)
         if file:
@@ -42,8 +39,6 @@ class ResumeForm(forms.ModelForm):
             raise forms.ValidationError("Aucun fichier sélectionné.")
         
 
-=======
->>>>>>> d7df771719921d577abc60dcd9b3da6353ab152d
 class LoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',

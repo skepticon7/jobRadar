@@ -1,13 +1,42 @@
 {% extends 'base.html' %}
 
 {% block title %}My Profile | Job Radar{% endblock title %}
+{% block content %}
 {% include 'navbar.html' %}
 
-{% block content %}
 
-<div class="container py-7">
 
-    <div class="d-flex gap-4">
+<div class="d-flex gap-3">
+        <div class="d-flex overflow-y-auto flex-column text-left flex-shrink-0 bg-light" style="width: 250px; min-height: 100vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{% url 'jobradar:jobPosts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Home
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'jobradar:settings' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                   <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li>
+                    <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-user"></i> Profile </a>
+                </li>
+            <li>
+                    {% if context.user_type == 'recruiter' %}
+                    <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Posts
+                    </a>
+                    {% elif context.user_type == 'jobseeker' %}
+                    <a href="{% url 'jobradar:applications' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Applications
+                    </a>
+                    {% endif %}
+            </li>
+        </ul>
+    </div>
+    <div class="d-flex w-75 gap-4 p-5">
         <div class="col-lg-4 mb-2 mb-lg-0">
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
@@ -127,7 +156,7 @@
                             {% for application in context.recent_applications %}
                                 <div class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">{{ application.jobPost.title }}</h6>
+                                        <h6 class="mb-1"><a href="{% url 'jobradar:jobPost' application.jobPost.id %}">{{ application.jobPost.title   }}</a></h6>
                                         <small class="text-muted">{{ application.created_at|date:"M d, Y" }}</small>
                                     </div>
                                     <p class="mb-1">{{ application.jobPost.recruiter.company_name }}</p>
@@ -190,7 +219,7 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Recent Job Posts</h5>
-                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                    <a href="{% url 'jobradar:jobPosts' %}" class="btn btn-sm btn-outline-primary">View All</a>
                 </div>
                 <div class="card-body">
                     {% if context.recent_job_posts %}
@@ -198,7 +227,7 @@
                             {% for job in context.recent_job_posts %}
                                 <div class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">{{ job.title }}</h6>
+                                        <h6 class="mb-1"><a href="{% url 'jobradar:jobPost' job.id %}">{{ job.title }}</a></h6>
                                         <small class="text-muted">{{ job.created_at|date:"M d, Y" }}</small>
                                     </div>
                                     <p class="mb-1">{{ job.location }}</p>
@@ -217,7 +246,7 @@
                         <div class="text-center py-4">
                             <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
                             <p>No job posts yet</p>
-                            <a href="#" class="btn btn-primary">Create Job Post</a>
+                            <a href="{% url 'jobradar:posts' %}" class="btn btn-primary">Create Job Post</a>
                         </div>
                     {% endif %}
                 </div>

@@ -6,7 +6,15 @@
     <div class="col-md-6">
 
       <h2 class="mb-4 text-center">Connexion</h2>
-
+        {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div  class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
       <form method="post" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
