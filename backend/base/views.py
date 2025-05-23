@@ -250,6 +250,7 @@ class JobPosts(View):
         user_fullname = request.session.get('user_name')
         user_type = request.session.get('user_type')
         profile_picture = request.session.get('profile_picture')
+        
         context = {
             'user_fullname': user_fullname,
             'user_type': user_type,
@@ -257,8 +258,13 @@ class JobPosts(View):
         }
 
         query = request.GET.get('q', '')
+        location = request.GET.get('location')
+        min_education = request.GET.get('min_education')
+        experience_level = request.GET.get('experience_level')
+        salary_min = request.GET.get('salary_min')
+        salary_max = request.GET.get('salary_max')
 
-        job_posts = JobPost.objects.select_related('recruiter')
+        job_posts = JobPost.objects.select_related('recruiter').filter(status=JobPost.ONGOING)
 
         if query:
             job_posts = job_posts.filter(
@@ -268,12 +274,33 @@ class JobPosts(View):
                 Q(recruiter__company_name__icontains=query)
             )
 
+        if location:
+            job_posts = job_posts.filter(location__icontains=location)
+
+        if min_education:
+            job_posts = job_posts.filter(min_education=min_education)
+
+        if experience_level:
+            job_posts = job_posts.filter(experience_level=experience_level)
+
+        if salary_min:
+            job_posts = job_posts.filter(salary_min__gte=salary_min)
+
+        if salary_max:
+            job_posts = job_posts.filter(salary_max__lte=salary_max)
+
         return render(request, 'jobOffers.html', {
             'job_posts': job_posts,
             'context': context,
-            'query': query
+            'query': query,
+            'filters': {
+                'location': location,
+                'min_education': min_education,
+                'experience_level': experience_level,
+                'salary_min': salary_min,
+                'salary_max': salary_max
+            }
         })
-
 
 class RegisterSuccess(View):
     def get(self , request):
@@ -464,6 +491,12 @@ class deleteApplication(View):
 
 
 
+"""
+    Add : CV extensions to only :  (.docx, .doc, .pdf, .txt, .odt, .rtf)
+    Function get call in : form.is_valid()
+"""
+
+
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
@@ -524,31 +557,68 @@ class Settings(View):
             if user_type == 'jobseeker':
                 user = JobSeeker.objects.get(id=user_id)
             else:
-                user = Recruiter.objects.get(id=user_id)
-
-            name = request.POST.get('name')
-            if not name:
-                messages.error(request, "Le nom est requis.")
-                return redirect('jobradar:settings')
-
-            user.name = name
-            user.email = request.POST.get('email')
-            user.phone_number = request.POST.get('phone_number')
-            user.profession = request.POST.get('profession')
-
-            if request.FILES.get('profile_picture'):
-                user.profile_picture = request.FILES['profile_picture']
-
-            if user_type == 'recruiter':
-                user.position_title = request.POST.get('position_title')
-                user.department = request.POST.get('department')
-                user.company_name = request.POST.get('company_name')
-
-            user.save()
-            request.session['user_name'] = user.name
-            request.session['profile_picture'] = user.profile_picture.url
-            messages.success(request, "Profile is up to date")
-
+                messages.error(request, "Erreur lors de l'ajout du CV.")
         return redirect('jobradar:settings')
+<<<<<<< HEAD
 
 
+
+
+"""
+    Profile :
+"""
+
+class Profile(View):
+
+    def get(self, request):
+        if not request.session.get('user_id'):
+            return redirect('jobradar:login')
+
+        user_fullname = request.session.get('user_name')
+        user_type = request.session.get('user_type')
+        profilePicture = request.session.get('profile_picture')
+        user_id = request.session.get('user_id')
+
+        context = {
+            'user_fullname': user_fullname,
+            'user_type': user_type,
+            'profile_picture': profilePicture,
+            'user_id': user_id
+        }
+
+        if user_type == 'jobseeker':
+            user = JobSeeker.objects.get(id=user_id)
+            resumes = Resume.objects.filter(jobSeeker=user)
+
+            recent_applications = Application.objects.filter(jobSeeker=user).order_by('-created_at')[:5]
+            applications_count = Application.objects.filter(jobSeeker=user).count()
+            
+            context.update({
+                'user': user, 
+                'resumes': resumes,
+                'recent_applications': recent_applications,
+                'applications_count': applications_count,
+                'profile_views': 0  
+            })
+        else:
+            user = Recruiter.objects.get(id=user_id)
+
+            recent_job_posts = JobPost.objects.filter(recruiter=user).order_by('-created_at')[:5]
+            job_posts_count = JobPost.objects.filter(recruiter=user).count()
+            active_jobs = JobPost.objects.filter(recruiter=user, status='ongoing').count()
+ 
+            applications_received = Application.objects.filter(jobPost__recruiter=user).count()
+            
+            context.update({
+                'user': user,
+                'recent_job_posts': recent_job_posts,
+                'job_posts_count': job_posts_count,
+                'applications_received': applications_received,
+                'active_jobs': active_jobs
+            })
+
+        return render(request, 'profile.html', {'context': context}) 
+
+   
+=======
+>>>>>>> d7df771719921d577abc60dcd9b3da6353ab152d

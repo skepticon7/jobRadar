@@ -18,6 +18,11 @@
                    <i class="fa-solid fa-gear"></i> Settings
                 </a>
             </li>
+
+            <li>
+                    <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-user"></i> Profile </a>
+                </li>
             <li>
                     {% if context.user_type == 'recruiter' %}
                     <a href="{% url 'jobradar:posts' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
@@ -29,6 +34,12 @@
                     </a>
                     {% endif %}
             </li>
+            <li>
+                <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p class="m-0">Profile</p>
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -36,6 +47,27 @@
     <div class="w-100 p-3">
         <!-- Search Bar -->
         <form method="get" class="mb-4">
+            <div class="col-md-4">
+                <input type="text" name="q" class="form-control" placeholder="Keyword..." value="{{ request.GET.q }}">
+        </div>
+        <div class="col-md-3">
+            <select name="experience_level" class="form-select">
+                <option value="">Experience Level</option>
+                <option value="junior" {% if request.GET.experience_level == 'junior' %}selected{% endif %}>Junior</option>
+                <option value="mid" {% if request.GET.experience_level == 'mid' %}selected{% endif %}>Mid</option>
+                <option value="senior" {% if request.GET.experience_level == 'senior' %}selected{% endif %}>Senior</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="location" class="form-select">
+                <option value="">All Locations</option>
+                {% for job in job_posts %}
+                    {% if job.location %}
+                        <option value="{{ job.location }}" {% if request.GET.location == 'job.location' %}selected{% endif %}>{{ job.location }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search a job (title, location...)" value="{{ request.GET.q }}">
                 <button class="btn btn-outline-primary" type="submit">Search</button>

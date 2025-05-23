@@ -1,0 +1,9 @@
+Réservation(reservation_id, user_id, salle_id, reservation_nom, reservation_salle, reservation_date,reservation_heuredebut,reservation_heurefin, status)
+
+
+l'automatisation de la gestion des salle dans Emsi les orangers pour la réservation des salles:
+==>faire une modélisation UML :
+*réaliser le diagramme de cas d'utilisation / diagramme de classe
+*réaliser le diagramme d'activité
+*réaliser le diagramme de séquence 
+*réaliser le diagramme de transition
