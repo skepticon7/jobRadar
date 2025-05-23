@@ -9,6 +9,7 @@ from django import forms
 from django import forms
 from .models import Resume
 
+
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
@@ -27,6 +28,8 @@ class ResumeForm(forms.ModelForm):
             return file
         else:
             raise forms.ValidationError("Aucun fichier sélectionné.")
+        
+
 class LoginForm(forms.Form):
     email = forms.EmailField(
         label='Email',

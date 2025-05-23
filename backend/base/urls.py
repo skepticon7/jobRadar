@@ -18,5 +18,6 @@ urlpatterns = [
     path('deleteApplication/<int:id>' , views.deleteApplication.as_view() , name='delete-application'),
     path('application/<int:app_id>/update-status/', views.UpdateApplicationStatus.as_view(), name='update-application-status'),
     path('settings' , views.Settings.as_view() , name='settings'),
-    path('deleteResume/<int:id>/', views.ResumeDelete.as_view(), name='deleteresume')
+    path('deleteResume/<int:id>/', views.ResumeDelete.as_view(), name='deleteresume'),
+    path('profile/', views.Profile.as_view(), name='profile'),
 ]
