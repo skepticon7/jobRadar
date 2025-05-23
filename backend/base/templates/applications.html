@@ -15,7 +15,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'jobradar:settings' %}"  class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                    <a href="#" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
                        <i class="fa-solid fa-gear"></i> Settings
                     </a>
                 </li>
@@ -34,6 +34,11 @@
                         <i class="fa-solid fa-envelope"></i> Applications
                     </a>
                     {% endif %}
+                </li>
+                <li>
+                    <a href="{% url 'jobradar:profile' %}" class="nav-link custom-link text-dark d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-envelope"></i> Profile
+                    </a>
                 </li>
             </ul>
         </div>
